@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<th:block th:include="fragments/header"></th:block>
+
+<body id="page-top">
+	 <div id="layout-wrapper">
+	 
+<th:block th:include="fragments/navbar"></th:block>
+           
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+                        <!-- start page title -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                   
+                                    <h4 class="mb-sm-0 font-size-18">Faturamento Geral</h4>
+
+<!-- 
+                                    <div class="page-title-right">
+                                        <ol class="breadcrumb m-0">
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+                                            <li class="breadcrumb-item active">Dashboard</li>
+                                        </ol>
+                                    </div>
+ -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end page title -->
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <div class="card overflow-hidden">
+                                   <!--  bg-soft -->
+                                    <div class="bg-success ">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="text-success p-3">
+                                                    <div class="text-white small">Hoje
+                                                      <p>Valor de vendas:
+                                                    <b>
+                                                      <spam th:text="${'R$ ' + faturamentoHoje.valorFaturamento}"> </spam>
+                                                      </b>
+                                                      </p>
+                                                  		<p><b>
+															<spam th:text="${faturamentoHoje.quantidadePedido}"> </spam>
+															</b> pedido(s) atendido(s).
+                                               
+                                                    
+                                                      </p>
+                                                           </div>
+                                                </div>
+                                                
+                                            </div>
+                                      
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                       <div class="pt-2 small">
+											    Ontem:
+                                                    <b>
+                                                      <spam th:text="${'R$ ' + faturamentoOntem.valorFaturamento}"> </spam>
+                                                      </b>
+                                                     
+                                                
+                                                    </div>
+                                        
+                                    </div>
+                                </div>
+         
+                            </div>
+                       <div class="col-sm">
+                                <div class="card overflow-hidden">
+                                    <div class="bg-info">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="text-info p-3">
+                                                    <div class="text-white small">Esta Semana
+                                                      <p>Valor de vendas:
+                                                    <b>
+                                                      <spam th:text="${'R$ ' + fa.valorFaturamento}"> </spam>
+                                                      </b>
+                                                	<p><b>
+															<spam th:text="${fa.quantidadePedido}"> </spam>
+															</b> pedido(s) atendido(s).                                                 
+                                                      </p>
+                                                
+                                                </div>
+                                                </div>
+                                                
+                                            </div>
+                                      
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                      
+                                                <div class="pt-2 small">
+												    Semana anterior:
+                                                    <b>
+                                                      <spam th:text="${'R$ ' + fp.valorFaturamento}"> </spam>
+                                                      </b>
+                                                    </div>
+                                      
+                                    </div>
+                                </div>
+         
+                            </div>
+                            
+                             <div class="col-sm">
+                                <div class="card overflow-hidden">
+                                    <div class="bg-warning">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="text-warning p-3">
+                                                    <div class="text-white small">Este mês
+                                                      <p>Valor de vendas:
+                                                    <b>
+                                                      <spam th:text="${'R$ ' + ma.valorFaturamento}"> </spam>
+                                                      </b>
+                                                      </p>
+                                                  		<p><b>
+															<spam th:text="${ma.quantidadePedido}"> </spam>
+															</b> pedido(s) atendido(s).                                                 
+                                                      </p>
+                                                      </div>
+                                                </div>
+                                                
+                                            </div>
+                                      
+                                        
+                                        </div>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                      <div class="pt-2 small">
+												    Mês anterior:
+                                                    <b>
+                                                      <spam th:text="${'R$ ' + mp.valorFaturamento}"> </spam>
+                                                      </b>
+                                                    </div>
+                                            </div>
+                                    
+                                </div>
+         
+                            </div> 
+                                </div>
+                                <!-- end row -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                     
+                                        <h4 class="card-title mb-0">Faturamento semanal</h4>
+	
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="mt-4">
+                                                   <!--  <h5 class="font-size-14">Faturamento detalhado</h5>
+                                                 
+                                                 
+                                                    <p class="card-title-desc">Click the accordions below to expand/collapse the accordion content.</p>
+-->
+                                                    <div class="accordion" id="accordionExample">
+                                                        
+                                                        <div class="accordion-item" th:each="d : ${fs}">
+                                                            <h2 class="accordion-header" th:id="'heading'+ ${d.faturamentoSemanalId}">
+                                     
+                                                                <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapse' + ${d.faturamentoSemanalId}" aria-expanded="true" th:aria-controls="'collapse' + ${d.faturamentoSemanalId}">
+ 									 														<span  th:text="${'De '+ #temporals.format( d.dataInicial , ' dd/MM ') + ' a '+ #temporals.format( d.dataFinal , ' dd/MM ') }" > </span>  
+ 									
+ 												<!--  <span th:text="${ 'De ' + d.dataInicial + ' a ' + d.dataFinal}" > </span>   
+ 													-->
+ 														<span style="margin-left: 60%;" th:text="${'R$ ' + d.valorFaturamento}" > </span>  
+														
+														</button>
+														
+                                                            </h2>
+                                                            <div th:id="'collapse' + ${d.faturamentoSemanalId}" class="accordion-collapse collapse" th:aria-labelledby="'heading'+ ${d.faturamentoSemanalId}" data-bs-parent="#accordionExample">
+                                                                <div class="accordion-body">
+                                                                							<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Data</th>
+									<th>Total</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="g : ${#numbers.sequence(d.faturamentosDiarios.size() -1, 0, -1)}"
+								 th:with="n=${d.faturamentosDiarios[g]}"> 
+                                   
+                                    <td  th:text="${#temporals.format( n.dataFaturamento , 'E dd/MM/yyyy ')}"> </td >
+									<td th:text="${ 'R$ ' + n.valorFaturamento}"></td>
+								</tr>
+							</tbody>
+						</table>
+      </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                               
+                                                    </div>
+                                                    <!-- end accordion -->
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+
+                                            <!-- end col -->
+                                        </div>
+                                        <!-- end row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                       
+<!--  
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <div class="mt-4">
+                                                    <h5 class="font-size-14">Últimos faturamentos</h5>
+
+                                                 <div class="accordion" id="accordionExample">
+  <div class="card" th:each="d : ${fs}">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-bs-toggle="collapse" th:data-bs-target="'#collapseOne' + ${d.faturamentoSemanalId}" aria-expanded="true" th:aria-controls="'collapseOne' + ${d.faturamentoSemanalId}">
+            <span th:text="${ 'De ' + d.dataInicial + ' a ' + d.dataFinal}" > </span>
+        </button>
+      </h5>
+    </div>
+
+     <div th:id="'collapseOne' + ${d.faturamentoSemanalId}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+        
+      <div class="card-body">
+							<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>Data</th>
+									<th>Total</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="g : ${#numbers.sequence(d.faturamentosDiarios.size() -1, 0, -1)}"
+								 th:with="n=${d.faturamentosDiarios[g]}"> 
+                                   
+                                    <td  th:text="${#temporals.format( n.dataFaturamento , 'E dd/MM/yyyy ')}"> </td >
+									<td th:text="${ 'R$ ' + n.valorFaturamento}"></td>
+								</tr>
+							</tbody>
+						</table>
+      </div>
+    </div>
+  </div>
+ </div>
+ 
+                                                    <!-- end accordion -->
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+
+                                         
+                                            <!-- end col -->
+                                        </div> 
+       
+                    <!-- container-fluid -->
+               
+                <!-- End Page-content -->
+
+
+			<th:block th:include="fragments/footer"></th:block>
+
+
+            <!-- end main content-->
+
+      
+        <!-- END layout-wrapper -->
+
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+	<th:block th:include="fragments/scripts"></th:block>
+
+    </body>
+
+</html>

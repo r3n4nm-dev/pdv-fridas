@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+<th:block th:include="fragments/header"></th:block>
+
+<body id="page-top">
+	 <div id="layout-wrapper">
+	 
+<th:block th:include="fragments/navbar"></th:block>
+           
+
+                <div class="page-content">
+                    <div class="container-fluid">
+          <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">Pedidos encerrados</h4>
+
+                              
+
+                                </div>
+                            </div>
+                        </div>
+					<!-- start page title -->
+	
+
+					<div class="table-responsive">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Total</th>
+									<th>Data</th>
+									<th>Informações</th>
+
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="d : ${pedidosEncerrados}">
+									<td th:text="${d.numeroPedidoDia}"></td>
+									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
+                                    <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
+                                  <td colspan="3">
+                                  <a  class="btn btn-warning btn-sm " th:href="@{/pedidos/encerrado/{pedidoId} (pedidoId=${d.pedidoId}) }">Detalhes</a>
+
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+								<a class="btn btn-success btn-sm" th:href=@{/pedidos}> VOLTAR</a>
+				
+				</div>
+
+
+			</div>
+		</div>
+		<!-- end row -->
+	
+	<!-- container-fluid -->
+	<!-- End Page-content -->
+
+
+	<th:block th:include="fragments/footer"></th:block>
+
+
+	<!-- end main content-->
+
+
+	<!-- END layout-wrapper -->
+
+
+
+	<!-- Right bar overlay-->
+	<div class="rightbar-overlay"></div>
+
+	<th:block th:include="fragments/scripts"></th:block>
+
+</body>
+
+</html>

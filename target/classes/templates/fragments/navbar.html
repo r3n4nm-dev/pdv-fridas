@@ -1,0 +1,61 @@
+<meta charset="UTF-8">
+
+<style>
+.colorthree { 
+background-color: #67595E !important;
+
+}
+
+.colorthree a {
+color: #fff !important;
+}
+</style>
+<header id="page-topbar" class="colorthree">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box">
+                                <span class="logo-sm">
+                                    <img th:src="@{/assets/images/logo-fridas.png}" alt="" height="50">
+                                </span>
+                            
+                        </div>
+
+
+
+                    </div>
+                    <div class="d-flex">
+
+          
+                        <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item waves-effect">
+						<a th:href="@{/pedidos}">Início</a>
+                            </button>
+                 
+                        </div>
+                        
+                          <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item waves-effect">
+						<a th:href="@{/pedidos-encerrados}">Pedidos encerrados</a>
+                            </button>
+                 
+                        </div>
+                                <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item waves-effect">
+						<a th:href="@{/faturamento}">Faturamento</a>
+                            </button>
+                 
+                        </div>
+                  <div class="dropdown d-inline-block">
+                            <button type="button" class="btn header-item waves-effect">
+						<a th:href="@{/itens/listar-itens}">Itens</a>
+                            </button>
+                 
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </header>

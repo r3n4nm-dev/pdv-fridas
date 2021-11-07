@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<style>
+td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+
+.selected {
+    background-color: rgb(241, 223, 255);
+}
+</style>
+
+
+<th:block th:include="fragments/header"></th:block>
+
+<body id="page-top">
+	 <div id="layout-wrapper">
+	 
+<th:block th:include="fragments/navbar"></th:block>
+           
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+
+    <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">Itens do pedido</h4>
+
+                              
+
+                                </div>
+                            </div>
+                        </div>
+		
+<!-- 
+<div id="tabelaPedidos" class="table-responsive">
+<table id="tabelaa" class="table table-bordered">
+
+<thead>
+<tr>
+<th>#</th>
+<th>nome</th>
+<th>preço</th>
+
+</tr>
+</thead>
+<tbody>
+<tr th:each="f : ${pedido.itens}">
+<td th:text="${f.itemId}"></td>
+<td th:text="${ '(' + f.tipo +') ' + f.nome}"></td>
+<td th:text="${ 'R$ ' + f.preco}"></td>
+
+</tr>
+</tbody>
+</table>
+</div>
+ -->
+ 									<th:block th:include="principal/pagament"></th:block>
+ 
+
+			<th:block th:include="principal/modalPagar"></th:block>
+
+
+<!-- Se a lista estiver vazia, vamos redirecionar o user para a página de pedidos 
+				<div th:if="${pedido.itens.isEmpty()}">
+				<div id="redirect">Redirecionando</div>
+			</div>
+			-->
+			<div class="row">
+			<div class="col">
+<button class="btn btn-primary btn-sm" id="pag" title="Pagar pedido" data-bs-toggle="modal" data-bs-target="#modalPagar">PAGAR</button>
+<a class="btn btn-success btn-sm" th:href=@{/pedidos}>VOLTAR</a>	
+	</div>
+		<div class="col"></div>
+		<div class="col">
+		
+		<h2> Total: R$ <span class="float-right" th:text="${pedido.valor}" id="preco">  </span> </h2>
+
+</div>
+
+
+
+
+</div>
+					</div>	
+                   </div>               <!-- end row -->
+                    </div>
+                    <!-- container-fluid -->
+                <!-- End Page-content -->
+
+
+			<th:block th:include="fragments/footer"></th:block>
+
+
+            <!-- end main content-->
+
+      
+        <!-- END layout-wrapper -->
+
+
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+	<th:block th:include="fragments/scripts"></th:block>
+
+    </body>
+
+</html>

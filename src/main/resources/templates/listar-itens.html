@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+<th:block th:include="fragments/header"></th:block>
+
+<body id="page-top">
+	 <div id="layout-wrapper">
+	 
+<th:block th:include="fragments/navbar"></th:block>
+           
+
+                <div class="page-content">
+                    <div class="container-fluid">
+				   <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">Adicionar item:</h4>
+
+							<th:block th:include="principal/removerModal"></th:block>
+                              
+
+                                </div>
+                            </div>
+
+							<form th:action="@{/itens/additem} " th:object="${item}" method="POST">
+			
+				<div class="form-group">
+				   <select   class="form-control" th:field="*{tipo}" id="tipo"  th:classappend="${#fields.hasErrors('tipo')} ? is-invalid">
+           
+           <option value = "">Selecione a categoria</option>
+           <option value = "Pão">Pão</option>
+          <option value = "Tapioca">Tapioca</option>
+        <option value = "Tapioca_Doce">Tapioca Doce</option>
+        <option value = "Bebida">Bebida</option>
+        <option value = "Bebida_Quente">Bebida Quente</option>
+        <option value = "Cuscuz"> Cuscuz</option>
+        <option value = "Ovos">Ovos</option>
+        <option value = "Pão_Caseiro">Pão Caseiro</option>
+         <option value = "Crepioca">Crepioca</option>
+         <option value = "Adicional">Adicional</option>
+    </select>
+  <div class="invalid-feedback" th:errors="*{tipo}"></div>
+
+    		<input      placeholder="Nome" type="text" class="form-control" id="nome" th:field="*{nome}"  th:classappend="${#fields.hasErrors('nome')} ? is-invalid" /> 
+  <div class="invalid-feedback" th:errors="*{nome}"></div>
+
+	<input type="number"  placeholder="Preço"  class="form-control" min="0.00" max="10000.00" step="0.50" id="preco"  th:field="*{preco}"  th:classappend="${#fields.hasErrors('preco')} ? is-invalid" /> 
+  <div class="invalid-feedback" th:errors="*{preco}"></div>
+
+				</div>
+
+</br>
+<input type="submit" value="Cadastrar" class="btn btn-primary btn-sm">
+				
+							</form>
+							</br>
+    <div id="att">
+      <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">Cardápio</h4>
+
+                              
+
+                                </div>
+                            </div>
+                        </div>
+
+                                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="nav-1-tab" data-bs-toggle="tab" href="#nav-1" role="tab"  aria-controls="nav-1" aria-selected="true">
+                                                    Pães 
+                                                </a>                                                
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="nav-2-tab" data-bs-toggle="tab" href="#nav-2" role="tab"  aria-controls="nav-2" aria-selected="false">
+                                                    Tapiocas 
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="nav-3-tab" data-bs-toggle="tab" href="#nav-3" role="tab"  aria-controls="nav-3" aria-selected="false">
+                                                    Tapiocas Doces  
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="nav-4-tab" data-bs-toggle="tab" href="#nav-4" role="tab"  aria-controls="nav-4" aria-selected="false">
+                                                    Bebidas    
+                                                </a>
+                                            </li>
+                                                   <li class="nav-item">
+                                                <a class="nav-link" id="nav-5-tab" data-bs-toggle="tab" href="#nav-5" role="tab"  aria-controls="nav-5" aria-selected="false">
+                                                   Bebidas Quentes 
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="nav-6-tab" data-bs-toggle="tab" href="#nav-6" role="tab"  aria-controls="nav-6" aria-selected="false">
+                                                    Cuscuz    
+                                                </a>
+                                            </li>
+                                                   <li class="nav-item">
+                                                <a class="nav-link" id="nav-7-tab" data-bs-toggle="tab" href="#nav-7" role="tab"  aria-controls="nav-7" aria-selected="false">
+                                                    Ovos  
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="nav-8-tab" data-bs-toggle="tab" href="#nav-8" role="tab"  aria-controls="nav-8" aria-selected="false">
+                                                    Pão Caseiro    
+                                                </a>
+                                            </li>
+                                                   <li class="nav-item">
+                                                <a class="nav-link" id="nav-9-tab" data-bs-toggle="tab" href="#nav-9" role="tab"  aria-controls="nav-9" aria-selected="false">
+                                                    Crepioca  
+                                                </a>
+                                            </li>
+                                                       <li class="nav-item">
+                                                <a class="nav-link" id="nav-10-tab" data-bs-toggle="tab" href="#nav-10" role="tab"  aria-controls="nav-10" aria-selected="false">
+                                                    Adicional  
+                                                </a>
+                                            </li>
+
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3" id="nav-tabContent">
+                                            <div class="tab-pane active " id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
+                                               
+                                              <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>Item</th>
+												<th>Preço</th>
+												<th>Ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${pao}">
+												<td th:text="${d.itemId}" th:class="nome" + "${d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                           
+                                            </div>
+                                            <div class="tab-pane" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${tapiocas}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                          <div class="tab-pane" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${tapiocas_doces}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                            <div class="tab-pane" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${bebidas}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                          <div class="tab-pane" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${bebidas_quentes}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                             <div class="tab-pane" id="nav-6" role="tabpanel" aria-labelledby="nav-6-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${cuscuz}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                           <div class="tab-pane" id="nav-7" role="tabpanel" aria-labelledby="nav-7-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${ovos}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                             <div class="tab-pane" id="nav-8" role="tabpanel" aria-labelledby="nav-8-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${caseiro}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                         <div class="tab-pane" id="nav-9" role="tabpanel" aria-labelledby="nav-9-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${crepioca}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                                     <div class="tab-pane" id="nav-10" role="tabpanel" aria-labelledby="nav-10-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${adicional}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                        </div>
+																	<!-- 	<div th:if="${!pedido.itens.isEmpty()}"> -->
+										
+    </div>							
+
+
+
+
+
+
+
+                                   
+                                
+                            
+                                
+
+					
+								</div>
+</div>
+</div>
+
+
+
+
+	<th:block th:include="fragments/footer"></th:block>
+
+
+
+	<!-- Right bar overlay-->
+	<div class="rightbar-overlay"></div>
+
+	<th:block th:include="fragments/scripts"></th:block>
+
+<div th:if="${add}">
+<script>
+  Command: toastr["success"]("Item criado")
+</script>
+	</div>
+<div th:if="${edit}">
+<script>
+  Command: toastr["success"]("Item editado")
+</script>
+
+	</div>
+
+<div th:if="${remove}">
+<script>
+  Command: toastr["success"]("Item apagado")
+</script>
+
+	</div>
+</body>
+
+</html>
