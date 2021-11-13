@@ -4,6 +4,7 @@ package com.renanmateus.vendafridas.controller;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
@@ -114,8 +115,14 @@ public class PedidoController {
 	
 	@GetMapping("/pedidos-encerrados")
 	public String pedidosEncerrados(ModelMap modelMap) {
-		List<Pedido> pedidosEncerrados = this.pedidoService.listarPedidosEncerrados();
-		modelMap.addAttribute("pedidosEncerrados",pedidosEncerrados);
+		LocalDateTime hojeManha = LocalDate.now().atStartOfDay();
+		LocalDateTime hojeNoite = LocalDate.now().atTime(23, 59, 59);
+		List<Pedido> pedidosEncerradosHoje = this.pedidoService.listarPedidosEncerrados(hojeManha, hojeNoite);
+		List<Pedido> pedidosEncerradosOntem = this.pedidoService.listarPedidosEncerrados(hojeManha.minusDays(1), hojeNoite.minusDays(1));
+
+		modelMap.addAttribute("pedidosEncerradosHoje",pedidosEncerradosHoje);
+		modelMap.addAttribute("pedidosEncerradosOntem",pedidosEncerradosOntem);
+
 		 return "pedidos-encerrados";
 		
 	}

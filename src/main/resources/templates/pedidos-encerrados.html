@@ -26,8 +26,15 @@
                             </div>
                         </div>
 					<!-- start page title -->
-	
+                    </div>
+<div class="row">
+<div class="col-12">
+     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-22">Hoje</h4>
 
+                              
+
+                                </div>
 					<div class="table-responsive">
 						<table class="table table-bordered">
 							<thead>
@@ -41,7 +48,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="d : ${pedidosEncerrados}">
+								<tr th:each="d : ${pedidosEncerradosHoje}">
 									<td th:text="${d.numeroPedidoDia}"></td>
 									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
                                     <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
@@ -53,13 +60,47 @@
 							</tbody>
 						</table>
 					</div>
+</div>
+</div>
+            <div class="col-12">
+     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-22">Ontem</h4>
+
+                              
+
+                                </div>
+            					<div class="table-responsive">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Total</th>
+									<th>Data</th>
+									<th>Informações</th>
+
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="d : ${pedidosEncerradosOntem}">
+									<td th:text="${d.numeroPedidoDia}"></td>
+									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
+                                    <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
+                                  <td colspan="3">
+                                  <a  class="btn btn-warning btn-sm " th:href="@{/pedidos/encerrado/{pedidoId} (pedidoId=${d.pedidoId}) }">Detalhes</a>
+
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+            </div>    
+
+                </div>
 								<a class="btn btn-success btn-sm" th:href=@{/pedidos}> VOLTAR</a>
-				
-				</div>
+	
+	 </div>
 
-
-			</div>
-		</div>
 		<!-- end row -->
 	
 	<!-- container-fluid -->

@@ -106,9 +106,7 @@ public class PedidoServiceImpl implements PedidoService {
 	
 
 	@Override
-	public List<Pedido> listarPedidosEncerrados() {
-		LocalDateTime hojeManha = LocalDate.now().atStartOfDay();
-		LocalDateTime hojeNoite = LocalDate.now().atTime(23, 59, 59);
+	public List<Pedido> listarPedidosEncerrados(LocalDateTime hojeManha, LocalDateTime hojeNoite) {
 		return this.pedidoRepository.buscarPedidosFechadosPorDia(hojeManha, hojeNoite);
 	}
 

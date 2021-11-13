@@ -1,5 +1,6 @@
 package com.renanmateus.vendafridas.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.renanmateus.vendafridas.model.Pedido;
@@ -16,8 +17,6 @@ public interface PedidoService {
 
 	Pedido removeItemPedido(Pedido pedido);
 
-	List<Pedido> listarPedidosEncerrados();
-
 	void confimarPedido(Long pedidoId);
 
 
@@ -26,6 +25,8 @@ public interface PedidoService {
 	void pagarValorTotalEmCartaoDebito(Long pedidoId);
 	
 	void pagar(Long pedidoId);
+
+	List<Pedido> listarPedidosEncerrados(LocalDateTime hojeManha, LocalDateTime hojeNoite);
 	
 	
 }
