@@ -114,7 +114,7 @@ public class PedidoServiceImpl implements PedidoService {
 	
 
 	@Override
-	public void confimarPedido(Long pedidoId) {
+	public void confimarPedido(Long pedidoId, Pedido p) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 
 		Optional<PedidoFinal> pedidoFinal = this.pedidoFinalRepository.findById(pedidoId);
@@ -127,7 +127,7 @@ public class PedidoServiceImpl implements PedidoService {
 		}
 		
 		pedido.setEstado(Estado.Aberto);
-
+		pedido.setCliente(p.getCliente());
 		this.pedidoRepository.save(pedido);
 	}
 	
@@ -244,5 +244,11 @@ public class PedidoServiceImpl implements PedidoService {
 	this.faturamentoService.salvar();
 
 	
+	}
+
+	@Override
+	public void confimarPedido(Long pedidoId) {
+		// TODO Auto-generated method stub
+		
 	}
 }

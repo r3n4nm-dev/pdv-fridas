@@ -368,17 +368,17 @@
 										
 						<div class="row">
                             <div class="col">
-								<form th:action= "@{/confirmar-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" method="post">
 								
-									<button class="btn btn-warning btn-sm"  title="Confirmar pedido"
-								th:href="@{/confirmar-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" role="button">
-								Confirmar Pedido </button>
-								<a class="btn btn-success btn-sm" th:href=@{/pedidos}>	VOLTAR</a>
+					
 							
-								
-								</form>
+									<th:block th:include="principal/modalConfirmar"></th:block>
+								<button class="btn btn-warning btn-sm" id="confirm" title="Confirmar pedido" data-bs-toggle="modal" data-bs-target="#modalConfirmar">CONFIRMAR</button>
+							
+
 										</div>
 										   <div class="col">
+										  								<a class="btn btn-success btn-sm" th:href=@{/pedidos}>	VOLTAR</a>
+
 										   </div>
 									
 								<br/>

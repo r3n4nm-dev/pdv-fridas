@@ -179,6 +179,11 @@ color: #f46a6a !important;
                                                                                                          <div class="text-end">
                                                        
                                                         <span th:text="${ 'Pedido número: ' + d.numeroPedidoDia}" > </span>
+												<br/>
+												Cliente:
+											<b>
+												<span th:text=" ${d.cliente == ''} ? 'Não informado' : ${d.cliente} "></span>
+											</b>
                                                        </div>
                                                         <br/>
                                                        <span  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </span >

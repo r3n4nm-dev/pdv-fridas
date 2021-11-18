@@ -40,6 +40,7 @@
 							<thead>
 								<tr>
 									<th>#</th>
+									<th>Cliente</th>
 									<th>Total</th>
 									<th>Data</th>
 									<th>Informações</th>
@@ -50,6 +51,7 @@
 							<tbody>
 								<tr th:each="d : ${pedidosEncerradosHoje}">
 									<td th:text="${d.numeroPedidoDia}"></td>
+									<td th:text="${d.cliente}"></td>
 									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
                                     <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
                                   <td colspan="3">
@@ -74,6 +76,7 @@
 							<thead>
 								<tr>
 									<th>#</th>
+									<th>Cliente</th>
 									<th>Total</th>
 									<th>Data</th>
 									<th>Informações</th>
@@ -84,6 +87,7 @@
 							<tbody>
 								<tr th:each="d : ${pedidosEncerradosOntem}">
 									<td th:text="${d.numeroPedidoDia}"></td>
+									<td th:text="${d.cliente}"></td>
 									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
                                     <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
                                   <td colspan="3">

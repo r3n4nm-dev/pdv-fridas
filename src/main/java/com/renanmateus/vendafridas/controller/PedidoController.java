@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.renanmateus.vendafridas.model.Estado;
@@ -148,7 +149,7 @@ public class PedidoController {
 	
 	///////////////////////// PEDIDO ID \\\\\\\\\\\\\\\\\\\\\\\\\\
 	@GetMapping("/{pedidoId}")
-	public String buscarPedido(@PathVariable Long pedidoId, ModelMap modelMap) {
+	public String buscarPedido(@PathVariable Long pedidoId, ModelMap modelMap, ModelAndView model) {
 		
 		Pedido pedido = this.pedidoService.buscarPedido(pedidoId);
 
@@ -157,6 +158,10 @@ public class PedidoController {
 			return "redirect:/pedidos/encerrado/"+pedidoId;
 		}
 		
+
+		model.addObject("pedido",pedido);
+		
+		//recupera
 		modelMap.addAttribute("pedido",pedido);
 
 		modelMap.addAttribute("pao",this.itemRepository.findByTipo(Tipo.Pão));
@@ -210,8 +215,8 @@ public class PedidoController {
 
 	///////////////////////// CONFIRMAR PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
 	@PostMapping("/confirmar-pedido/{pedidoId}")
-	public String confimar(@PathVariable Long pedidoId, RedirectAttributes attr) {
-		pedidoService.confimarPedido(pedidoId);
+	public String confimar(@PathVariable Long pedidoId, RedirectAttributes attr, Pedido pedido) {
+		pedidoService.confimarPedido(pedidoId, pedido);
 		attr.addFlashAttribute("success", true);
 		return "redirect:/pedidos";
 	}

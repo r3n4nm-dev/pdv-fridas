@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -27,6 +28,9 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long pedidoId;
 	private LocalDateTime horaPedido;
+	
+	@Lob
+	private String cliente;
 	
 	@ManyToMany (fetch=FetchType.EAGER)
 	@JoinTable(name = "pedido_itens", joinColumns = @JoinColumn(name = "pedidoId", referencedColumnName = "pedidoId"), inverseJoinColumns = @JoinColumn(name = "itemId", referencedColumnName = "itemId"))

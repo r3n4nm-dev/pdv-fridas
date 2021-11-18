@@ -27,6 +27,8 @@ public interface PedidoService {
 	void pagar(Long pedidoId);
 
 	List<Pedido> listarPedidosEncerrados(LocalDateTime hojeManha, LocalDateTime hojeNoite);
+
+	void confimarPedido(Long pedidoId, Pedido p);
 	
 	
 }

@@ -118,7 +118,7 @@ $(document).ready(function(){
 	var valorIrreal = 0;
 	var y;
 	
-	var table = $("#datatable-funcionarios").DataTable({
+	var table = $("#datatable-itensPedido").DataTable({
 		bProcessing: true,
 		serverSide: true,
 		bFilter: false,
@@ -232,7 +232,7 @@ return	'R$ ' + data + '.00';
 			});
 	});
 	
-	$('#datatable-funcionarios tbody').on('click', '#buttonDeleteModal', function() {
+	$('#datatable-itensPedido tbody').on('click', '#buttonDeleteModal', function() {
 		
 		  var pedidoItemId = table.cell( $( this ).closest('tr').find('td:first-child')).data();
 		
@@ -261,6 +261,9 @@ Command: toastr["error"]("Item removido")
 
 		});
 	
+	
+	
+
 	
 	$("#ok_cartao").on("click", function() {
 		 if(arrayItemId.length === 0) {
