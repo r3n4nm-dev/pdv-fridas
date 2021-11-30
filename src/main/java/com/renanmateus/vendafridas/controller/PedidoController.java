@@ -90,8 +90,8 @@ public class PedidoController {
 	@GetMapping
 	public String pedidos(ModelMap modelMap) {
 		
-	  LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.TUESDAY)); 
-	  LocalDate fimSemana = inicioSemana.plusDays(5);
+	  LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)); 
+	  LocalDate fimSemana = inicioSemana.plusDays(6);
 	  FaturamentoSemanal faturamentoSemanaAtual = this.faturamentoService.buscarFaturamentoSemanal(inicioSemana, fimSemana);
 	  Faturamento faturamentoOntem = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now().minusDays(1));
 	  Faturamento faturamentoHoje = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now());

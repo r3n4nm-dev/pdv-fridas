@@ -208,7 +208,7 @@ return	'R$ ' + data + '.00';
 	});
 		$(".btn-edt").on("click", function() {
 		  var itemId = $(this).parent().parent().find(".nome").text();
-		   console.log("itemId = "+itemId);
+		   //console.log("itemId = "+itemId);
 			$(location).attr('href',  window.location.origin+"/itens/editar/"+itemId)							
 	   
 	});
@@ -217,7 +217,7 @@ return	'R$ ' + data + '.00';
 	
 	$(".btn-add").on("click", function() {
 		  var itemId = $(this).parent().parent().find(".nome").text();
-		   console.log("itemId = "+itemId);
+		   //console.log("itemId = "+itemId);
 		    //console.log("pedidoId = "+pedidoId);
 	        $.ajax({
 				method: "POST",

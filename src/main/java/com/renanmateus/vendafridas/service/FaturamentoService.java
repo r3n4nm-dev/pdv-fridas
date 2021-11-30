@@ -46,8 +46,8 @@ public class FaturamentoService {
 			Optional <FaturamentoSemanal> faturamentoSemanal= this.faturamentoSemanalRepository.buscarFaturamentoSemanalPorIntervaloDeData(LocalDate.now());
 		if (faturamentoSemanal.isEmpty()) 	{
 			LocalDate inicio = LocalDate.now(ZoneId.of("America/Sao_Paulo"))
-					.with(TemporalAdjusters.previousOrSame(DayOfWeek.TUESDAY));
-			LocalDate fim = inicio.plusDays(5);
+					.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+			LocalDate fim = inicio.plusDays(6);
 	
 			return this.faturamentoSemanalRepository.save(new FaturamentoSemanal(inicio, fim));
 			
