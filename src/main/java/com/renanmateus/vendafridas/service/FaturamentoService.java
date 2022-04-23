@@ -56,6 +56,22 @@ return faturamentoSemanal.get();
 	}
 	
 	
+	public Faturamento atualizarTodosFaturamentos(Long pedidoId) {
+		LocalDateTime hoje = this.pedidoRepository.findById(pedidoId).get().getHoraPedido();
+		this.pedidoRepository.deleteById(pedidoId);
+		LocalDateTime hojeManha = hoje.toLocalDate().atStartOfDay();
+		LocalDateTime hojeNoite = hoje.toLocalDate().atTime(23, 59, 59);
+		
+		BigDecimal valorFaturamentoDiario = this.pedidoRepository.sumPedidos(hojeManha, hojeNoite);
+		long qntPedidos = pedidoRepository.countHoraPedido(hojeManha,hojeNoite);
+		
+		Optional<Faturamento> faturamento = this.faturamentoRepository.findByDataFaturamento(hoje.toLocalDate());
+
+		faturamento.get().setValorFaturamento(valorFaturamentoDiario);
+		faturamento.get().setQuantidadePedido(qntPedidos);
+		return this.faturamentoRepository.save(faturamento.get());
+	}
+	
 	public Faturamento salvar() {
 		LocalDateTime hojeManha = LocalDate.now().atStartOfDay();
 		LocalDateTime hojeNoite = LocalDate.now().atTime(23, 59, 59);
