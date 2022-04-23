@@ -247,8 +247,10 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public void confimarPedido(Long pedidoId) {
-		// TODO Auto-generated method stub
-		
+	public void removerPedido(Long pedidoId) {
+		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
+		this.pedidoRepository.delete(pedido);
+		this.faturamentoService.salvar();
 	}
+
 }

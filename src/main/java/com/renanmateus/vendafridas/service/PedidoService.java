@@ -17,9 +17,6 @@ public interface PedidoService {
 
 	Pedido removeItemPedido(Pedido pedido);
 
-	void confimarPedido(Long pedidoId);
-
-
 	void pagarValorTotalEmDinheiro(Long pedidoId);
 
 	void pagarValorTotalEmCartaoDebito(Long pedidoId);
@@ -29,6 +26,8 @@ public interface PedidoService {
 	List<Pedido> listarPedidosEncerrados(LocalDateTime hojeManha, LocalDateTime hojeNoite);
 
 	void confimarPedido(Long pedidoId, Pedido p);
+	
+	void removerPedido(Long pedidoId);
 	
 	
 }

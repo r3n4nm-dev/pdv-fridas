@@ -11,7 +11,8 @@
 	 <div id="layout-wrapper">
 	 
 <th:block th:include="fragments/navbar"></th:block>
-           
+<th:block th:include="principal/removerPedido"></th:block>
+
 
                 <div class="page-content">
                     <div class="container-fluid">
@@ -43,7 +44,7 @@
 									<th>Cliente</th>
 									<th>Total</th>
 									<th>Data</th>
-									<th>Informações</th>
+									<th>Ação</th>
 
 
 								</tr>
@@ -56,6 +57,11 @@
                                     <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
                                   <td colspan="3">
                                   <a  class="btn btn-warning btn-sm " th:href="@{/pedidos/encerrado/{pedidoId} (pedidoId=${d.pedidoId}) }">Detalhes</a>
+									<button class="btn btn-danger btn-sm"  title="remover item"
+									th:id="${ 'btn_removerPedido/' + d.pedidoId}"
+									role="button" data-bs-toggle="modal" data-bs-target="#removerPedidoModal">
+									Remover
+								</button>
 
 
 								</tr>

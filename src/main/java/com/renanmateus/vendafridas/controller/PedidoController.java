@@ -75,17 +75,13 @@ public class PedidoController {
 	public ResponseEntity<?> dataTables(HttpServletRequest request, @PathVariable Long id) {
 		Map<String, Object> data = new DataTablesPedidoService().execute(this.pedidoRepository, id,  request);
 		return ResponseEntity.ok(data);
-
 	}
 	
 	@GetMapping("/pagament/{id}")
 	public ResponseEntity<?> dataTablesPagamento(HttpServletRequest request, @PathVariable Long id) {
 		Map<String, Object> data = new DataTablesPedidoService().execute(this.pedidoRepository, id,  request);
 		return ResponseEntity.ok(data);
-
 	}
-	
-	
 	
 	@GetMapping
 	public String pedidos(ModelMap modelMap) {
@@ -96,7 +92,6 @@ public class PedidoController {
 	  Faturamento faturamentoOntem = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now().minusDays(1));
 	  Faturamento faturamentoHoje = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now());
 		
-		
 		modelMap.addAttribute("fa", faturamentoSemanaAtual);
 		modelMap.addAttribute("faturamentoHoje", faturamentoHoje);
 		modelMap.addAttribute("faturamentoOntem", faturamentoOntem);
@@ -106,13 +101,8 @@ public class PedidoController {
 			modelMap.addAttribute("pago", true);
 			setPago(false);
 		}
-		
-		
 		return "pedidos";
-		
 	}
-	
-	
 	
 	@GetMapping("/pedidos-encerrados")
 	public String pedidosEncerrados(ModelMap modelMap) {
@@ -124,7 +114,7 @@ public class PedidoController {
 		modelMap.addAttribute("pedidosEncerradosHoje",pedidosEncerradosHoje);
 		modelMap.addAttribute("pedidosEncerradosOntem",pedidosEncerradosOntem);
 
-		 return "pedidos-encerrados";
+		return "pedidos-encerrados";
 		
 	}
 	///////////////////////// PEDIDO FECHADO ID \\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -134,36 +124,21 @@ public class PedidoController {
 	public String buscaPedidoFechado(@PathVariable Long pedidoId, ModelMap modelMap) {
 		Optional<PedidoFinal> pedidoFinal = this.pedidoFinalRepository.findById(pedidoId);
 		Optional<Pedido> pedido = this.pedidoRepository.findById(pedidoId);
-
-		
 		modelMap.addAttribute("pedido",pedido.get());
-
 		modelMap.addAttribute("pedidoFinal",pedidoFinal.get());
 		return "encerrado";
-		
 	}
-	
-	
-	
-	
-	
+		
 	///////////////////////// PEDIDO ID \\\\\\\\\\\\\\\\\\\\\\\\\\
 	@GetMapping("/{pedidoId}")
 	public String buscarPedido(@PathVariable Long pedidoId, ModelMap modelMap, ModelAndView model) {
-		
 		Pedido pedido = this.pedidoService.buscarPedido(pedidoId);
-
 		if(pedido.getEstado().equals(Estado.Fechado)) {
-			
 			return "redirect:/pedidos/encerrado/"+pedidoId;
 		}
-		
-
 		model.addObject("pedido",pedido);
-		
 		//recupera
 		modelMap.addAttribute("pedido",pedido);
-
 		modelMap.addAttribute("pao",this.itemRepository.findByTipo(Tipo.Pão));
 		modelMap.addAttribute("tapiocas",this.itemRepository.findByTipo(Tipo.Tapioca));
 		modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipo(Tipo.Tapioca_Doce));
@@ -174,11 +149,8 @@ public class PedidoController {
 		modelMap.addAttribute("caseiro",this.itemRepository.findByTipo(Tipo.Pão_Caseiro));
 		modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
 		modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
-
-
 		return "detalhes-pedido";
 	}
-	
 	
 	///////////////////////// CRIAR PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
 		@GetMapping("/novo-pedido")
@@ -188,29 +160,24 @@ public class PedidoController {
 			return "redirect:/pedidos/"+pedido.getPedidoId();
 		}
 
-		
 	///////////////////////// ADICIONAR ITEM PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
 		@PostMapping("/add/{pedidoId}/{itemId}")
 		public String addItem(@PathVariable Long pedidoId, @PathVariable Long itemId) {
-
 			Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 			List<Item> itens = pedido.getItens();
 			itens.add(this.itemRepository.findById(itemId).get());
 			this.pedidoService.addItemPedido(pedido);
 			return "redirect:/pedidos/"+pedidoId;
-			
 		}
 		
 	///////////////////////// REMOVER ITEM PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
 		@PostMapping("/remove/{pedidoId}/{itemId}")
 		public String removeItem(@PathVariable Long pedidoId, @PathVariable Long itemId) {
-
 			Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 			List<Item> itens = pedido.getItens();
 			itens.remove(this.itemRepository.findById(itemId).get());
 			this.pedidoService.removeItemPedido(pedido);
 			return "redirect:/pedidos/"+pedidoId;
-			
 		}
 
 	///////////////////////// CONFIRMAR PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -226,7 +193,6 @@ public class PedidoController {
 	@GetMapping("/pagamento/{pedidoId}")
 	public String dividirPagamento(@PathVariable Long pedidoId, ModelMap modelMap) {
 		modelMap.addAttribute("pedido",this.pedidoService.buscarPedido(pedidoId));
-
 		return "pagamento";
 		}
 	
@@ -234,7 +200,6 @@ public class PedidoController {
 	public String pagarValorTotalEmDinheiro(@PathVariable Long pedidoId) {
 		this.pedidoService.pagarValorTotalEmDinheiro(pedidoId);
 		setPago(true);
-
 		return "redirect:pedidos";
 	}
 	
@@ -242,7 +207,6 @@ public class PedidoController {
 	public String pagarValorTotalEmCartao(@PathVariable Long pedidoId) {
 		this.pedidoService.pagarValorTotalEmCartaoDebito(pedidoId);
 		setPago(true);
-
 		return "redirect:pedidos";
 	}
 
@@ -256,7 +220,6 @@ public class PedidoController {
 	public String pagarItemPedidoCartao(@PathVariable Long pedidoId, @PathVariable String arrayItemId) {	
 		this.pedidoService.pagarItemPedidoEmCartao(pedidoId, arrayItemId);
 		return "redirect:/pagamento/"+pedidoId;
-		
 	}
 	
 	@GetMapping("/pagar/{pedidoId}")
@@ -264,6 +227,12 @@ public class PedidoController {
 		this.pedidoService.pagar(pedidoId);
 		setPago(true);
 		return "redirect:pedidos";
+	}
+	
+	@GetMapping("/removerPedido/{pedidoId}")
+	public String removerPedido(@PathVariable Long pedidoId) {
+		this.pedidoService.removerPedido(pedidoId);
+		return "redirect:/pedidos-encerrados";
 	}
 	
 }
