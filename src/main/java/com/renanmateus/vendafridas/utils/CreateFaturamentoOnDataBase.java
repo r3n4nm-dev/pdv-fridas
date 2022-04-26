@@ -31,7 +31,7 @@ public class CreateFaturamentoOnDataBase {
 		
 		// criando faturamento semanal da semana passada
 		LocalDate inicio = LocalDate.now(ZoneId.of("America/Sao_Paulo"))
-				.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+				.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
 		//LocalDate fim = inicio.plusDays(5);
 		
 		LocalDate inicioDaSemanaAnterior = inicio.minusWeeks(1);

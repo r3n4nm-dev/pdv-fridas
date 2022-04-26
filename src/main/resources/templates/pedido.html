@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+
+<th:block th:include="fragments/header"></th:block>
+
+<body id="page-top">
+	 <div id="layout-wrapper">
+	 
+<th:block th:include="fragments/navbar"></th:block>
+           
+
+                <div class="page-content">
+                    <div class="container-fluid">
+
+
+    <div class="row">
+                            <div class="col-12">
+                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">Itens do pedido</h4>
+
+                              
+
+                                </div>
+                            </div>
+                        </div>
+		   <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">
+                                    Cliente:
+<span  class="float-right" th:text="${pedido.cliente}"> 
+</h4>
+
+                              
+
+                                </div>
+
+     <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>Item</th>
+												<th>Preço</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${pedido.itens}">
+												<td th:text="${d.itemId}" ></td>
+												<td th:text="${d.tipo + ' (' + d.nome + ')'}" ></td>
+												<td th:text=" ${'R$' +d.preco}" ></td>
+												
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div> 
+
+
+								 <div class="col">
+								
+										<h2> Total: <span  class="float-right" th:text="${'R$ '+pedido.valor}">  </span> </h2>
+								
+							
+								
+		</div>	
+
+
+			<div class="row">
+			<div class="col">
+<a class="btn btn-success btn-sm" th:href=@{/pedidos}>VOLTAR</a>	
+	</div>
+		<div class="col"></div>
+		<div class="col">
+		
+
+</div>
+
+
+
+
+</div>
+					</div>	
+                   </div>               <!-- end row -->
+                    </div>
+                    <!-- container-fluid -->
+                <!-- End Page-content -->
+
+
+			<th:block th:include="fragments/footer"></th:block>
+
+
+            <!-- end main content-->
+
+      
+        <!-- END layout-wrapper -->
+
+
+
+
+        <!-- Right bar overlay-->
+        <div class="rightbar-overlay"></div>
+
+	<th:block th:include="fragments/scripts"></th:block>
+
+    </body>
+
+</html>

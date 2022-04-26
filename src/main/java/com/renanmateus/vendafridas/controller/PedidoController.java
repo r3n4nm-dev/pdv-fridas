@@ -86,7 +86,7 @@ public class PedidoController {
 	@GetMapping
 	public String pedidos(ModelMap modelMap) {
 		
-	  LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)); 
+	  LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)); 
 	  LocalDate fimSemana = inicioSemana.plusDays(6);
 	  FaturamentoSemanal faturamentoSemanaAtual = this.faturamentoService.buscarFaturamentoSemanal(inicioSemana, fimSemana);
 	  Faturamento faturamentoOntem = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now().minusDays(1));
@@ -138,6 +138,7 @@ public class PedidoController {
 		}
 		model.addObject("pedido",pedido);
 		//recupera
+		modelMap.addAttribute("editName", pedido.isEditName());
 		modelMap.addAttribute("pedido",pedido);
 		modelMap.addAttribute("pao",this.itemRepository.findByTipo(Tipo.Pão));
 		modelMap.addAttribute("tapiocas",this.itemRepository.findByTipo(Tipo.Tapioca));
@@ -150,6 +151,14 @@ public class PedidoController {
 		modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
 		modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
 		return "detalhes-pedido";
+	}
+	
+	@GetMapping("/detalhes/{pedidoId}")
+	public String detalhesPedido(@PathVariable Long pedidoId, ModelMap modelMap, ModelAndView model) {
+		Pedido pedido = this.pedidoService.buscarPedido(pedidoId);
+		model.addObject("pedido",pedido);
+		modelMap.addAttribute("pedido",pedido);
+		return "pedido";
 	}
 	
 	///////////////////////// CRIAR PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\

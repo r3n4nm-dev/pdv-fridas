@@ -28,6 +28,7 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long pedidoId;
 	private LocalDateTime horaPedido;
+	private boolean editName; 
 	
 	@Lob
 	private String cliente;

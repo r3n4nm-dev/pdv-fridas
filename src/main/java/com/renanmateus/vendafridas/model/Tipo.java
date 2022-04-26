@@ -11,5 +11,6 @@ public enum Tipo {
 	Ovos,
 	Pão_Caseiro,
 	Crepioca,
-	Adicional;
+	Adicional,
+	Salgado;
 }

@@ -37,6 +37,7 @@
         <option value = "Ovos">Ovos</option>
         <option value = "Pão_Caseiro">Pão Caseiro</option>
          <option value = "Crepioca">Crepioca</option>
+          <option value = "Salgado">Salgado</option>
          <option value = "Adicional">Adicional</option>
     </select>
   <div class="invalid-feedback" th:errors="*{tipo}"></div>
@@ -107,16 +108,21 @@
                                                     Pão Caseiro    
                                                 </a>
                                             </li>
-                                                   <li class="nav-item">
+                                            <li class="nav-item">
                                                 <a class="nav-link" id="nav-9-tab" data-bs-toggle="tab" href="#nav-9" role="tab"  aria-controls="nav-9" aria-selected="false">
                                                     Crepioca  
                                                 </a>
                                             </li>
-                                                       <li class="nav-item">
+                                             <li class="nav-item">
                                                 <a class="nav-link" id="nav-10-tab" data-bs-toggle="tab" href="#nav-10" role="tab"  aria-controls="nav-10" aria-selected="false">
-                                                    Adicional  
+                                                    Salgado  
                                                 </a>
                                             </li>
+                                            <li class="nav-item">
+                                            <a class="nav-link" id="nav-11-tab" data-bs-toggle="tab" href="#nav-11" role="tab"  aria-controls="nav-11" aria-selected="false">
+                                                Adicional  
+                                            </a>
+                                        </li>
 
                                         </ul>
         
@@ -387,7 +393,37 @@
 												</table>	
 												</div>
                                             </div>
-                                                     <div class="tab-pane" id="nav-10" role="tabpanel" aria-labelledby="nav-10-tab">
+                                       <div class="tab-pane" id="nav-10" role="tabpanel" aria-labelledby="nav-10-tab">
+   											 <div class="table-responsive">
+												<table class="table table-bordered">
+												<thead>
+												<tr>
+												<th>#</th>
+												<th>item</th>
+												<th>preço</th>
+												<th>ação</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr th:each="d : ${salgado}">
+												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+												<td th:text="${d.nome}" ></td>
+												<td th:text="${ 'R$ ' + d.preco}"></td>
+												<td colspan="3">
+												<button class="btn btn-warning btn-sm btn-edt" title="Editar item">Editar</button>
+												<button class="btn btn-danger btn-sm"  title="remover item"
+												th:id="${ 'btn_itens/deletarItem/' + d.itemId}"
+												role="button" data-bs-toggle="modal" data-bs-target="#removerModal">
+												Remover
+											</button>
+												</td>
+												</tr>
+												</tbody>
+												</table>	
+												</div>
+                                            </div>
+                                            
+                                            <div class="tab-pane" id="nav-11" role="tabpanel" aria-labelledby="nav-11-tab">
    											 <div class="table-responsive">
 												<table class="table table-bordered">
 												<thead>

@@ -95,7 +95,11 @@ public class PedidoServiceImpl implements PedidoService {
 	
 	@Override
 	public Pedido buscarPedido(Long pedidoId) {
-		return this.pedidoRepository.findById(pedidoId).get();
+		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
+		if (pedido.getCliente() != null) {
+			pedido.setEditName(true);
+		}
+		return pedido;
 	}
 
 	@Override
@@ -110,9 +114,6 @@ public class PedidoServiceImpl implements PedidoService {
 		return this.pedidoRepository.buscarPedidosFechadosPorDia(hojeManha, hojeNoite);
 	}
 
-	
-	
-
 	@Override
 	public void confimarPedido(Long pedidoId, Pedido p) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
@@ -125,9 +126,10 @@ public class PedidoServiceImpl implements PedidoService {
 			pf.setPedidoFinalId(pedidoId);
 			this.pedidoFinalRepository.save(pf);
 		}
-		
-		pedido.setEstado(Estado.Aberto);
+		if (pedido.getCliente() == null) {
 		pedido.setCliente(p.getCliente());
+		}
+		pedido.setEstado(Estado.Aberto);
 		this.pedidoRepository.save(pedido);
 	}
 	

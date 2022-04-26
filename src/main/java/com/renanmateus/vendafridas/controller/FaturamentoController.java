@@ -36,7 +36,7 @@ public class FaturamentoController {
 		
 	
 		// SEMANA
-		LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+		LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY));
 		LocalDate fimSemana = inicioSemana.plusDays(6);
 		FaturamentoSemanal faturamentoSemanaAtual = this.faturamentoService.buscarFaturamentoSemanal(inicioSemana, fimSemana);
 		FaturamentoSemanal faturamentoSemanaPassada = this.faturamentoService.buscarFaturamentoSemanal(inicioSemana.minusWeeks(1), fimSemana.minusWeeks(1));

@@ -42,6 +42,7 @@ public class ItemController {
 		modelMap.addAttribute("ovos",this.itemRepository.findByTipo(Tipo.Ovos));
 		modelMap.addAttribute("caseiro",this.itemRepository.findByTipo(Tipo.Pão_Caseiro));
 		modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
+		modelMap.addAttribute("salgado",this.itemRepository.findByTipo(Tipo.Salgado));
 		modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
 
 		modelAndView.addObject("item", item);
@@ -82,6 +83,7 @@ public class ItemController {
 			modelMap.addAttribute("ovos",this.itemRepository.findByTipo(Tipo.Ovos));
 			modelMap.addAttribute("caseiro",this.itemRepository.findByTipo(Tipo.Pão_Caseiro));
 			modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
+			modelMap.addAttribute("salgado",this.itemRepository.findByTipo(Tipo.Salgado));
 			modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
 
 			modelAndView.addObject("item", item);
