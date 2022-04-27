@@ -28,6 +28,8 @@ public interface PedidoService {
 	void confimarPedido(Long pedidoId, Pedido p);
 	
 	void removerPedido(Long pedidoId);
+
+	void renomearPedido(Long pedidoId, Pedido pedido);
 	
 	
 }

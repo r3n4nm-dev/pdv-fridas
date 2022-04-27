@@ -1,10 +1,10 @@
 <meta charset="UTF-8">
-	<div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog"
+	<div class="modal fade" id="modalRenomear" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Confirmar pedido
+					<h5 class="modal-title" id="exampleModalLabel">Renomear pedido
 						</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
@@ -13,12 +13,13 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
-				<form th:action= "@{/confirmar-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" th:object="${pedido}" method="post">
+				<form th:action= "@{/renomear-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" th:object="${pedido}" method="post">
 
    <div class="mb-3">
-                                                <label for="formrow-firstname-input" class="form-label">Insira um nome para identificar este pedido:</label>
+                                                <label for="formrow-firstname-input" class="form-label">Insira um noooooooooome para identificar este pedido:</label>
                                                 <input type="text" class="form-control" th:field="*{cliente}">
-                                            </div>		<input type="submit" name= "confirm" value="OK" class="btn btn-primary btn-sm">	
+                                            </div>		
+                                            <input type="submit" name= "rename" value="OK" class="btn btn-primary btn-sm">	
                                             </form>
                                     </div>
                                 </div>

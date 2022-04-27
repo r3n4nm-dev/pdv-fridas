@@ -1,405 +1,379 @@
+
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	xmlns="http://www.w3.org/1999/xhtml">
-
-<th:block th:include="fragments/header"></th:block>
-
-<body id="page-top">
-	 <div id="layout-wrapper">
-	 
-<th:block th:include="fragments/navbar"></th:block>
-           
-
-                <div class="page-content">
-                    <div class="container-fluid">
-				
-
-      <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Cardápio</h4>
-
-                              
-
-                                </div>
-                            </div>
-                        </div>
-						
-
-					<!-- start 
-
-
-
-                                <div class="card">
-                                    <div class="card-body">
-        <!-- 
-                                        <h4 class="card-title">Custom Tabs</h4>
-                                        <p class="card-title-desc">Example of custom tabs</p>
-         -->
-                                        <!-- Nav tabs -->
-                                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" id="myTab" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" id="nav-1-tab" data-bs-toggle="tab" href="#nav-1" role="tab"  aria-controls="nav-1" aria-selected="true">
-                                                    Pães 
-                                                </a>                                                
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="nav-2-tab" data-bs-toggle="tab" href="#nav-2" role="tab"  aria-controls="nav-2" aria-selected="false">
-                                                    Tapiocas 
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="nav-3-tab" data-bs-toggle="tab" href="#nav-3" role="tab"  aria-controls="nav-3" aria-selected="false">
-                                                    Tapiocas Doces  
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="nav-4-tab" data-bs-toggle="tab" href="#nav-4" role="tab"  aria-controls="nav-4" aria-selected="false">
-                                                    Bebidas    
-                                                </a>
-                                            </li>
-                                                   <li class="nav-item">
-                                                <a class="nav-link" id="nav-5-tab" data-bs-toggle="tab" href="#nav-5" role="tab"  aria-controls="nav-5" aria-selected="false">
-                                                   Bebidas Quentes 
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="nav-6-tab" data-bs-toggle="tab" href="#nav-6" role="tab"  aria-controls="nav-6" aria-selected="false">
-                                                    Cuscuz    
-                                                </a>
-                                            </li>
-                                                   <li class="nav-item">
-                                                <a class="nav-link" id="nav-7-tab" data-bs-toggle="tab" href="#nav-7" role="tab"  aria-controls="nav-7" aria-selected="false">
-                                                    Ovos  
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="nav-8-tab" data-bs-toggle="tab" href="#nav-8" role="tab"  aria-controls="nav-8" aria-selected="false">
-                                                    Pão Caseiro    
-                                                </a>
-                                            </li>
-                                                   <li class="nav-item">
-                                                <a class="nav-link" id="nav-9-tab" data-bs-toggle="tab" href="#nav-9" role="tab"  aria-controls="nav-9" aria-selected="false">
-                                                    Crepioca  
-                                                </a>
-                                            </li>
-                                                       <li class="nav-item">
-                                                <a class="nav-link" id="nav-10-tab" data-bs-toggle="tab" href="#nav-10" role="tab"  aria-controls="nav-10" aria-selected="false">
-                                                    Adicional  
-                                                </a>
-                                            </li>
-
-                                        </ul>
-        
-                                        <!-- Tab panes -->
-                                        <div class="tab-content p-3" id="nav-tabContent">
-                                            <div class="tab-pane active " id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
-                                               
-                                              <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>Item</th>
-												<th>Preço</th>
-												<th>Ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${pao}">
-												<td th:text="${d.itemId}" th:class="nome" + "${d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                           
-                                            </div>
-                                            <div class="tab-pane" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${tapiocas}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                          <div class="tab-pane" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${tapiocas_doces}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                            <div class="tab-pane" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${bebidas}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                          <div class="tab-pane" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${bebidas_quentes}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                             <div class="tab-pane" id="nav-6" role="tabpanel" aria-labelledby="nav-6-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${cuscuz}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                           <div class="tab-pane" id="nav-7" role="tabpanel" aria-labelledby="nav-7-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${ovos}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                             <div class="tab-pane" id="nav-8" role="tabpanel" aria-labelledby="nav-8-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${caseiro}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                         <div class="tab-pane" id="nav-9" role="tabpanel" aria-labelledby="nav-9-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${crepioca}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                                     <div class="tab-pane" id="nav-10" role="tabpanel" aria-labelledby="nav-10-tab">
-   											 <div class="table-responsive">
-												<table class="table table-bordered">
-												<thead>
-												<tr>
-												<th>#</th>
-												<th>item</th>
-												<th>preço</th>
-												<th>ação</th>
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:each="d : ${adicional}">
-												<td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
-												<td th:text="${d.nome}" ></td>
-												<td th:text="${ 'R$ ' + d.preco}"></td>
-												<td colspan="3">
-												<button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
-												</td>
-												</tr>
-												</tbody>
-												</table>	
-												</div>
-                                            </div>
-                                        </div>
-																	<!-- 	<div th:if="${!pedido.itens.isEmpty()}"> -->
-										
-							
-
-
-
-      <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">Itens do pedido:</h4>
-
-                              
+   xmlns="http://www.w3.org/1999/xhtml">
+   <th:block th:include="fragments/header"></th:block>
+   <body id="page-top">
+      <div id="layout-wrapper">
+         <th:block th:include="fragments/navbar"></th:block>
+         <div class="page-content">
+            <div class="container-fluid">
+               <div class="row">
+                  <div class="col-12">
+                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Cardápio</h4>
+                     </div>
+                  </div>
+               </div>
+               <!-- start 
+                  <div class="card">
+                      <div class="card-body">
+                  <!-- 
+                          <h4 class="card-title">Custom Tabs</h4>
+                          <p class="card-title-desc">Example of custom tabs</p>
+                  -->
+               <!-- Nav tabs -->
+               <ul class="nav nav-tabs nav-tabs-custom nav-justified" id="myTab" role="tablist">
+                  <li class="nav-item">
+                     <a class="nav-link active" id="nav-1-tab" data-bs-toggle="tab" href="#nav-1" role="tab"  aria-controls="nav-1" aria-selected="true">
+                     Pães 
+                     </a>                                                
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-2-tab" data-bs-toggle="tab" href="#nav-2" role="tab"  aria-controls="nav-2" aria-selected="false">
+                     Tapiocas 
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-3-tab" data-bs-toggle="tab" href="#nav-3" role="tab"  aria-controls="nav-3" aria-selected="false">
+                     Tapiocas Doces  
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-4-tab" data-bs-toggle="tab" href="#nav-4" role="tab"  aria-controls="nav-4" aria-selected="false">
+                     Bebidas    
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-5-tab" data-bs-toggle="tab" href="#nav-5" role="tab"  aria-controls="nav-5" aria-selected="false">
+                     Bebidas Quentes 
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-6-tab" data-bs-toggle="tab" href="#nav-6" role="tab"  aria-controls="nav-6" aria-selected="false">
+                     Cuscuz    
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-7-tab" data-bs-toggle="tab" href="#nav-7" role="tab"  aria-controls="nav-7" aria-selected="false">
+                     Ovos  
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-8-tab" data-bs-toggle="tab" href="#nav-8" role="tab"  aria-controls="nav-8" aria-selected="false">
+                     Pão Caseiro    
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-9-tab" data-bs-toggle="tab" href="#nav-9" role="tab"  aria-controls="nav-9" aria-selected="false">
+                     Crepioca  
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" id="nav-10-tab" data-bs-toggle="tab" href="#nav-10" role="tab"  aria-controls="nav-10" aria-selected="false">
+                     Adicional  
+                     </a>
+                  </li>
+               </ul>
+               <!-- Tab panes -->
+               <div class="tab-content p-3" id="nav-tabContent">
+                  <div class="tab-pane active " id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>Item</th>
+                                 <th>Preço</th>
+                                 <th>Ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${pao}">
+                                 <td th:text="${d.itemId}" th:class="nome" + "${d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${tapiocas}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${tapiocas_doces}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${bebidas}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${bebidas_quentes}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-6" role="tabpanel" aria-labelledby="nav-6-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${cuscuz}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-7" role="tabpanel" aria-labelledby="nav-7-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${ovos}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-8" role="tabpanel" aria-labelledby="nav-8-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${caseiro}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-9" role="tabpanel" aria-labelledby="nav-9-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${crepioca}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="nav-10" role="tabpanel" aria-labelledby="nav-10-tab">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>item</th>
+                                 <th>preço</th>
+                                 <th>ação</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr th:each="d : ${adicional}">
+                                 <td th:text="${d.itemId}" th:class="${'nome ' + d.itemId}"></td>
+                                 <td th:text="${d.nome}" ></td>
+                                 <td th:text="${ 'R$ ' + d.preco}"></td>
+                                 <td colspan="3">
+                                    <button class="btn btn-success btn-sm btn-add" title="Adicionar item">Adicionar</button>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <!-- 	<div th:if="${!pedido.itens.isEmpty()}"> -->
+               <div class="row">
+                                          </div>
+		   <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                    <h4 class="mb-sm-0 font-size-18">
+                                    Cliente:
+<span  class="float-right" th:text="${pedido.cliente}"> 
+</h4>
 
                                 </div>
-                            </div>
-                        </div>
+                  <div class="col-12">
+                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Itens do pedido:</h4>
+                     </div>
+                   </div>
 
-									<th:block th:include="principal/lista"></th:block>
+                  
+               </div>
+               <th:block th:include="principal/lista"></th:block>
+               <div class="row">
+                  <div class="col">
+                  	 <div th:if="not ${editName}">
+                        <th:block th:include="principal/modalConfirmar"></th:block>
+                        <button class="btn btn-warning btn-sm" id="confirm" title="Confirmar pedido" data-bs-toggle="modal" data-bs-target="#modalConfirmar">CONFIRMAR</button>							
+                     </div>
+                     <div th:if="${editName}">
+                        <form th:action= "@{/confirmar-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" th:object="${pedido}" method="post">
+                        <input type="submit" name= "confirm" value="CONFIRMAR" class="btn btn-warning btn-sm">	
+                     </div>
+                  </div>
+                  <div class="col">
+                                    <div th:if="${editName}">
 
-										
-						<div class="row">
-                            <div class="col">
-								
-					<div th:if="not ${editName}">
-					<th:block th:include="principal/modalConfirmar"></th:block>
-				<button class="btn btn-warning btn-sm" id="confirm" title="Confirmar pedido" data-bs-toggle="modal" data-bs-target="#modalConfirmar">CONFIRMAR</button>							
-</div>
-	<div th:if="${editName}">
-	<form th:action= "@{/confirmar-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" th:object="${pedido}" method="post">
-	<input type="submit" value="CONFIRMAR" class="btn btn-primary btn-sm">	
-	
-	</div>
-
-
-										</div>
-										   <div class="col">
-										  								<a class="btn btn-success btn-sm" th:href=@{/pedidos}>	VOLTAR</a>
-
-										   </div>
-									
-								<br/>
-								 <div class="col">
-								
-										<h2> Total: <span  class="float-right" th:text="${'R$ '+pedido.valor}">  </span> </h2>
-								
-							
-								
-		</div>						</div>
-								</div>
-</div>
-</div>
-
-			
-
-
-	<th:block th:include="fragments/footer"></th:block>
-
-
-
-	<!-- Right bar overlay-->
-	<div class="rightbar-overlay"></div>
-
-	<th:block th:include="fragments/scripts"></th:block>
-
-</body>
-
+                     <th:block th:include="principal/modalRenomear"></th:block>
+                     <button class="btn btn-primary btn-sm" id="rename" title="Renomear pedido" data-bs-toggle="modal" data-bs-target="#modalRenomear">RENOMEAR PEDIDO</button>							
+                  </div>
+                  </div>
+                  
+                  <div class="col">
+                     <a class="btn btn-success btn-sm" th:href=@{/pedidos}>	VOLTAR</a>
+                  </div>
+                  <br/>
+                  <div class="col">
+                     <h2> Total: <span  class="float-right" th:text="${'R$ '+pedido.valor}">  </span> </h2>
+                  </div>
+               </div>
+      </div>
+      </div>
+            </div>
+         </div>
+      </div>
+      <th:block th:include="fragments/footer"></th:block>
+      <!-- Right bar overlay-->
+      <div class="rightbar-overlay"></div>
+      <th:block th:include="fragments/scripts"></th:block>
+   </body>
 </html>
+

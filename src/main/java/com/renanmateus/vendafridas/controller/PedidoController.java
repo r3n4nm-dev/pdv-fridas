@@ -190,12 +190,20 @@ public class PedidoController {
 		}
 
 	///////////////////////// CONFIRMAR PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
-	@PostMapping("/confirmar-pedido/{pedidoId}")
+	// Diferentes comportamentos para o mesmo método
+	// Se o botão clicado for confirm
+	@PostMapping(value = "/confirmar-pedido/{pedidoId}", params={"confirm"}	)
 	public String confimar(@PathVariable Long pedidoId, RedirectAttributes attr, Pedido pedido) {
 		pedidoService.confimarPedido(pedidoId, pedido);
 		attr.addFlashAttribute("success", true);
 		return "redirect:/pedidos";
 	}
+	// Se o botão clicado for rename
+	@PostMapping(value = "/confirmar-pedido/{pedidoId}", params={"rename"}	)
+	public String renomear(@PathVariable Long pedidoId, RedirectAttributes attr, Pedido pedido) {
+		pedidoService.renomearPedido(pedidoId, pedido);
+		return "redirect:/pedidos/"+pedidoId;	
+		}
 	
 	///////////////////////// PAGAMENTOS \\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -243,5 +251,5 @@ public class PedidoController {
 		this.pedidoService.removerPedido(pedidoId);
 		return "redirect:/pedidos-encerrados";
 	}
-	
+
 }

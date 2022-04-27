@@ -66,7 +66,6 @@ public class PedidoServiceImpl implements PedidoService {
 			pedido.setValor(this.valor);
 			//pedido.setValorFinal(pedido.getValor());
 		});
-	
 		
 		//this.pedidoFinalRepository.save(new PedidoFinal(pedido)); // <== aqui
 		return this.pedidoRepository.save(pedido);
@@ -103,12 +102,17 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
+	public void renomearPedido(Long pedidoId, Pedido p) {
+	Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
+	pedido.setCliente(p.getCliente());
+	this.pedidoRepository.save(pedido);
+	}
+	
+	@Override
 	public List<Pedido> listarPedidos() {
 		return this.pedidoRepository.findByEstadoOrderByPedidoIdDesc(Estado.Aberto);
 	}
 	
-	
-
 	@Override
 	public List<Pedido> listarPedidosEncerrados(LocalDateTime hojeManha, LocalDateTime hojeNoite) {
 		return this.pedidoRepository.buscarPedidosFechadosPorDia(hojeManha, hojeNoite);
@@ -137,10 +141,7 @@ public class PedidoServiceImpl implements PedidoService {
 	public void pagar(Long pedidoId) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		pedido.setEstado(Estado.Fechado);
-
-		this.pedidoRepository.save(pedido);
-		
-
+		this.pedidoRepository.save(pedido);	
 	}
 
 	@Override
@@ -149,20 +150,15 @@ public class PedidoServiceImpl implements PedidoService {
 		pedido.setEstado(Estado.Fechado);
 		pedido.setValorFinal(pedido.getValor().add(pedido.getValorFinal()));
 		
-		
-	
 		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
 			
-			List<Item> itens = new ArrayList<Item>(pedido.getItens());		
-			itens.forEach(item -> pedidoFinal.getItens().add(item));
-			this.pedidoFinalRepository.save(pedidoFinal);
-	
+		List<Item> itens = new ArrayList<Item>(pedido.getItens());		
+		itens.forEach(item -> pedidoFinal.getItens().add(item));
+		this.pedidoFinalRepository.save(pedidoFinal);
 
 		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
 	}
-	
-
 
 	public void pagarItemPedidoEmDinheiro(Long pedidoId, String arrayItemId) {	
 	this.valorDinheiro= new BigDecimal("0.00");
@@ -185,7 +181,6 @@ public class PedidoServiceImpl implements PedidoService {
 	
 		pedido.setValorFinal(this.valorDinheiro.add(pedido.getValorFinal()));
 		
-		
 		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
 		this.it.forEach(ia -> pedidoFinal.getItens().add(ia));
 		this.it.clear();
@@ -193,7 +188,6 @@ public class PedidoServiceImpl implements PedidoService {
 		this.pedidoFinalRepository.save(pedidoFinal);
 		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
-
 	}
 
 	@Override
@@ -202,55 +196,42 @@ public class PedidoServiceImpl implements PedidoService {
 		pedido.setEstado(Estado.Fechado);
 		this.valorFinal = pedido.getValor().multiply(TAXA_CARTAO);
 		pedido.setValorFinal(this.valorFinal.add(pedido.getValorFinal()));
-		
-
 		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
-			
-			List<Item> itens = new ArrayList<Item>(pedido.getItens());		
-			itens.forEach(item -> pedidoFinal.getItens().add(item));
-			this.pedidoFinalRepository.save(pedidoFinal);
-	
+		List<Item> itens = new ArrayList<Item>(pedido.getItens());		
+		itens.forEach(item -> pedidoFinal.getItens().add(item));
+		this.pedidoFinalRepository.save(pedidoFinal);
 		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
-
 	}
 
 	public void pagarItemPedidoEmCartao(Long pedidoId, String arrayItemId) {	
 		this.valorCartao= new BigDecimal("0.00");
-
 		List<Long> listItens = SplitItemIdFromString.splitString(arrayItemId);
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		List<Item> itensDoPedido = pedido.getItens();
-
-	listItens.forEach(item -> {	
-		Item i = this.itemRepository.findById(item).get();
-		this.valorCartao = (i.getPreco().multiply(TAXA_CARTAO)).add(this.valorCartao);
-		this.it.add(i);
-		itensDoPedido.remove(i);		
+		listItens.forEach(item -> {	
+			Item i = this.itemRepository.findById(item).get();
+			this.valorCartao = (i.getPreco().multiply(TAXA_CARTAO)).add(this.valorCartao);
+			this.it.add(i);
+			itensDoPedido.remove(i);		
 	});	
-	
-	this.valor = new BigDecimal("0.00");
-	itensDoPedido.forEach(it -> {
-		this.valor =  it.getPreco().add(this.valor);
-		pedido.setValor(this.valor);
+		this.valor = new BigDecimal("0.00");
+		itensDoPedido.forEach(it -> {
+			this.valor =  it.getPreco().add(this.valor);
+			pedido.setValor(this.valor);
 	});	
 	
 	pedido.setValorFinal(this.valorCartao.add(pedido.getValorFinal()));
-	
 	PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
 	this.it.forEach(ia -> pedidoFinal.getItens().add(ia));
 	this.it.clear();
 	pedidoFinal.setPedidoFinalId(pedido.getPedidoId());
-	
 	this.pedidoRepository.save(pedido);
 	this.faturamentoService.salvar();
-
-	
 	}
 
 	@Override
 	public void removerPedido(Long pedidoId) {
 		this.faturamentoService.atualizarTodosFaturamentos(pedidoId);
 	}
-
 }
