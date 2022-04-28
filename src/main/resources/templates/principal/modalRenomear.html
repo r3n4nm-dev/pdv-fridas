@@ -16,7 +16,7 @@
 				<form th:action= "@{/renomear-pedido/{pedidoId} ( pedidoId=${pedido.pedidoId} ) }" th:object="${pedido}" method="post">
 
    <div class="mb-3">
-                                                <label for="formrow-firstname-input" class="form-label">Insira um noooooooooome para identificar este pedido:</label>
+                                                <label for="formrow-firstname-input" class="form-label">Insira um nome para identificar este pedido:</label>
                                                 <input type="text" class="form-control" th:field="*{cliente}">
                                             </div>		
                                             <input type="submit" name= "rename" value="OK" class="btn btn-primary btn-sm">	
