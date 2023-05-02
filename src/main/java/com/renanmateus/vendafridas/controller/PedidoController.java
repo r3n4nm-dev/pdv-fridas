@@ -95,6 +95,10 @@ public class PedidoController {
 	  if (faturamentoHoje.getValorFaturamento() == null) {
 		  faturamentoHoje.setValorFaturamento(new BigDecimal("0.00"));
 	  }
+
+	  if (faturamentoOntem.getValorFaturamento() == null) {
+			faturamentoOntem.setValorFaturamento(new BigDecimal("0.00"));
+	  }
 		modelMap.addAttribute("fa", faturamentoSemanaAtual);
 		modelMap.addAttribute("faturamentoHoje", faturamentoHoje);
 		modelMap.addAttribute("faturamentoOntem", faturamentoOntem);
