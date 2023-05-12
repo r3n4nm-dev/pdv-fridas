@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,17 +32,17 @@ public class ItemController {
 		
 
 		
-		modelMap.addAttribute("pao",this.itemRepository.findByTipo(Tipo.Pão));
-		modelMap.addAttribute("tapiocas",this.itemRepository.findByTipo(Tipo.Tapioca));
-		modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipo(Tipo.Tapioca_Doce));
-		modelMap.addAttribute("bebidas",this.itemRepository.findByTipo(Tipo.Bebida));
-		modelMap.addAttribute("bebidas_quentes",this.itemRepository.findByTipo(Tipo.Bebida_Quente));
-		modelMap.addAttribute("cuscuz",this.itemRepository.findByTipo(Tipo.Cuscuz));
-		modelMap.addAttribute("ovos",this.itemRepository.findByTipo(Tipo.Ovos));
-		modelMap.addAttribute("caseiro",this.itemRepository.findByTipo(Tipo.Pão_Caseiro));
-		modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
-		modelMap.addAttribute("salgado",this.itemRepository.findByTipo(Tipo.Salgado));
-		modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
+		modelMap.addAttribute("pao",this.itemRepository.findByTipoAndDeleted(Tipo.Pão, false));
+		modelMap.addAttribute("tapiocas",this.itemRepository.findByTipoAndDeleted(Tipo.Tapioca, false));
+		modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipoAndDeleted(Tipo.Tapioca_Doce, false));
+		modelMap.addAttribute("bebidas",this.itemRepository.findByTipoAndDeleted(Tipo.Bebida, false));
+		modelMap.addAttribute("bebidas_quentes",this.itemRepository.findByTipoAndDeleted(Tipo.Bebida_Quente, false));
+		modelMap.addAttribute("cuscuz",this.itemRepository.findByTipoAndDeleted(Tipo.Cuscuz, false));
+		modelMap.addAttribute("ovos",this.itemRepository.findByTipoAndDeleted(Tipo.Ovos, false));
+		modelMap.addAttribute("caseiro",this.itemRepository.findByTipoAndDeleted(Tipo.Pão_Caseiro, false));
+		modelMap.addAttribute("crepioca",this.itemRepository.findByTipoAndDeleted(Tipo.Crepioca, false));
+		modelMap.addAttribute("salgado",this.itemRepository.findByTipoAndDeleted(Tipo.Salgado, false));
+		modelMap.addAttribute("adicional",this.itemRepository.findByTipoAndDeleted(Tipo.Adicional, false));
 
 		modelAndView.addObject("item", item);
 
@@ -74,17 +73,17 @@ public class ItemController {
 		if (result.hasErrors()) {
 		
 			
-			modelMap.addAttribute("pao",this.itemRepository.findByTipo(Tipo.Pão));
-			modelMap.addAttribute("tapiocas",this.itemRepository.findByTipo(Tipo.Tapioca));
-			modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipo(Tipo.Tapioca_Doce));
-			modelMap.addAttribute("bebidas",this.itemRepository.findByTipo(Tipo.Bebida));
-			modelMap.addAttribute("bebidas_quentes",this.itemRepository.findByTipo(Tipo.Bebida_Quente));
-			modelMap.addAttribute("cuscuz",this.itemRepository.findByTipo(Tipo.Cuscuz));
-			modelMap.addAttribute("ovos",this.itemRepository.findByTipo(Tipo.Ovos));
-			modelMap.addAttribute("caseiro",this.itemRepository.findByTipo(Tipo.Pão_Caseiro));
-			modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
-			modelMap.addAttribute("salgado",this.itemRepository.findByTipo(Tipo.Salgado));
-			modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
+			modelMap.addAttribute("pao",this.itemRepository.findByTipoAndDeleted(Tipo.Pão, false));
+			modelMap.addAttribute("tapiocas",this.itemRepository.findByTipoAndDeleted(Tipo.Tapioca, false));
+			modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipoAndDeleted(Tipo.Tapioca_Doce, false));
+			modelMap.addAttribute("bebidas",this.itemRepository.findByTipoAndDeleted(Tipo.Bebida, false));
+			modelMap.addAttribute("bebidas_quentes",this.itemRepository.findByTipoAndDeleted(Tipo.Bebida_Quente, false));
+			modelMap.addAttribute("cuscuz",this.itemRepository.findByTipoAndDeleted(Tipo.Cuscuz, false));
+			modelMap.addAttribute("ovos",this.itemRepository.findByTipoAndDeleted(Tipo.Ovos, false));
+			modelMap.addAttribute("caseiro",this.itemRepository.findByTipoAndDeleted(Tipo.Pão_Caseiro, false));
+			modelMap.addAttribute("crepioca",this.itemRepository.findByTipoAndDeleted(Tipo.Crepioca, false));
+			modelMap.addAttribute("salgado",this.itemRepository.findByTipoAndDeleted(Tipo.Salgado, false));
+			modelMap.addAttribute("adicional",this.itemRepository.findByTipoAndDeleted(Tipo.Adicional, false));
 
 			modelAndView.addObject("item", item);
 			return "listar-itens";

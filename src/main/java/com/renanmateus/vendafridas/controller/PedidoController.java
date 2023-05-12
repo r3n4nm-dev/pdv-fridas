@@ -2,6 +2,7 @@ package com.renanmateus.vendafridas.controller;
 
 
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -91,7 +92,9 @@ public class PedidoController {
 	  FaturamentoSemanal faturamentoSemanaAtual = this.faturamentoService.buscarFaturamentoSemanal(inicioSemana, fimSemana);
 	  Faturamento faturamentoOntem = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now().minusDays(1));
 	  Faturamento faturamentoHoje = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now());
-		
+	  if (faturamentoHoje.getValorFaturamento() == null) {
+		  faturamentoHoje.setValorFaturamento(new BigDecimal("0.00"));
+	  }
 		modelMap.addAttribute("fa", faturamentoSemanaAtual);
 		modelMap.addAttribute("faturamentoHoje", faturamentoHoje);
 		modelMap.addAttribute("faturamentoOntem", faturamentoOntem);
@@ -140,16 +143,16 @@ public class PedidoController {
 		//recupera
 		modelMap.addAttribute("editName", pedido.isEditName());
 		modelMap.addAttribute("pedido",pedido);
-		modelMap.addAttribute("pao",this.itemRepository.findByTipo(Tipo.Pão));
-		modelMap.addAttribute("tapiocas",this.itemRepository.findByTipo(Tipo.Tapioca));
-		modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipo(Tipo.Tapioca_Doce));
-		modelMap.addAttribute("bebidas",this.itemRepository.findByTipo(Tipo.Bebida));
-		modelMap.addAttribute("bebidas_quentes",this.itemRepository.findByTipo(Tipo.Bebida_Quente));
-		modelMap.addAttribute("cuscuz",this.itemRepository.findByTipo(Tipo.Cuscuz));
-		modelMap.addAttribute("ovos",this.itemRepository.findByTipo(Tipo.Ovos));
-		modelMap.addAttribute("caseiro",this.itemRepository.findByTipo(Tipo.Pão_Caseiro));
-		modelMap.addAttribute("crepioca",this.itemRepository.findByTipo(Tipo.Crepioca));
-		modelMap.addAttribute("adicional",this.itemRepository.findByTipo(Tipo.Adicional));
+		modelMap.addAttribute("pao",this.itemRepository.findByTipoAndDeleted(Tipo.Pão, false));
+		modelMap.addAttribute("tapiocas",this.itemRepository.findByTipoAndDeleted(Tipo.Tapioca, false));
+		modelMap.addAttribute("tapiocas_doces",this.itemRepository.findByTipoAndDeleted(Tipo.Tapioca_Doce, false));
+		modelMap.addAttribute("bebidas",this.itemRepository.findByTipoAndDeleted(Tipo.Bebida, false));
+		modelMap.addAttribute("bebidas_quentes",this.itemRepository.findByTipoAndDeleted(Tipo.Bebida_Quente, false));
+		modelMap.addAttribute("cuscuz",this.itemRepository.findByTipoAndDeleted(Tipo.Cuscuz, false));
+		modelMap.addAttribute("ovos",this.itemRepository.findByTipoAndDeleted(Tipo.Ovos, false));
+		modelMap.addAttribute("caseiro",this.itemRepository.findByTipoAndDeleted(Tipo.Pão_Caseiro, false));
+		modelMap.addAttribute("crepioca",this.itemRepository.findByTipoAndDeleted(Tipo.Crepioca, false));
+		modelMap.addAttribute("adicional",this.itemRepository.findByTipoAndDeleted(Tipo.Adicional, false));
 		return "detalhes-pedido";
 	}
 	

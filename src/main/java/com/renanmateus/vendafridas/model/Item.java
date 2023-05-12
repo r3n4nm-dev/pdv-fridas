@@ -11,10 +11,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Data
 @Entity
 @Table(name = "Itens")
+@SQLDelete(sql = "UPDATE itens SET deleted=true WHERE item_id=?")
+// @Where(clause = "deleted = false")
 public class Item {
 
 	@Id
@@ -26,6 +30,7 @@ public class Item {
 	private BigDecimal preco;
 	@NotNull(message=" Não pode ficar em branco.")
 	private Tipo tipo;
+	private boolean deleted = Boolean.FALSE;
 
 
 

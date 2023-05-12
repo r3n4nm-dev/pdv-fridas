@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -141,21 +142,21 @@ public class PedidoServiceImpl implements PedidoService {
 	public void pagar(Long pedidoId) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		pedido.setEstado(Estado.Fechado);
-		this.pedidoRepository.save(pedido);	
+		pedido.setHoraPedido(LocalDateTime.now());
+		this.pedidoRepository.save(pedido);
+		this.faturamentoService.salvar();
 	}
 
 	@Override
 	public void pagarValorTotalEmDinheiro(Long pedidoId) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		pedido.setEstado(Estado.Fechado);
+		pedido.setHoraPedido(LocalDateTime.now());
 		pedido.setValorFinal(pedido.getValor().add(pedido.getValorFinal()));
-		
 		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
-			
 		List<Item> itens = new ArrayList<Item>(pedido.getItens());		
 		itens.forEach(item -> pedidoFinal.getItens().add(item));
 		this.pedidoFinalRepository.save(pedidoFinal);
-
 		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
 	}
@@ -194,12 +195,14 @@ public class PedidoServiceImpl implements PedidoService {
 	public void pagarValorTotalEmCartaoDebito(Long pedidoId) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		pedido.setEstado(Estado.Fechado);
+		pedido.setHoraPedido(LocalDateTime.now());
 		this.valorFinal = pedido.getValor().multiply(TAXA_CARTAO);
 		pedido.setValorFinal(this.valorFinal.add(pedido.getValorFinal()));
 		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
 		List<Item> itens = new ArrayList<Item>(pedido.getItens());		
 		itens.forEach(item -> pedidoFinal.getItens().add(item));
 		this.pedidoFinalRepository.save(pedidoFinal);
+
 		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
 	}

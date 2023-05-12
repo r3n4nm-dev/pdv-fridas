@@ -1,5 +1,6 @@
 package com.renanmateus.vendafridas.controller;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -53,6 +54,10 @@ public class FaturamentoController {
 		// DIA
 		Faturamento faturamentoOntem = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now().minusDays(1));
 		Faturamento faturamentoHoje = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now());
+
+		if (faturamentoHoje.getValorFaturamento() == null) {
+			faturamentoHoje.setValorFaturamento(new BigDecimal("0.00"));
+		}
 		
 		
 		List<FaturamentoSemanal> fs = this.fsr.buscarCincoPrimeiros(PageRequest.of(0,5));	

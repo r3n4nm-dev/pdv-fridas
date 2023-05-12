@@ -12,7 +12,7 @@ import com.renanmateus.vendafridas.model.Tipo;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
 	// Listagem para preencher pagina de itens
-	List<Item> findByTipo(Tipo tipo);
+	List<Item> findByTipoAndDeleted(Tipo tipo, boolean deleted);
 
 
 

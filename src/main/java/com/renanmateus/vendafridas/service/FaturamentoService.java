@@ -81,7 +81,6 @@ return faturamentoSemanal.get();
 		
 		Optional<Faturamento> faturamento = this.faturamentoRepository.findByDataFaturamento(LocalDate.now());
 		if (faturamento.isEmpty()) {
-			
 			return this.faturamentoRepository.save(new Faturamento(valorFaturamentoDiario, LocalDate.now(), qntPedidos, retornaFaturamentoMensal()));
 		}
 
