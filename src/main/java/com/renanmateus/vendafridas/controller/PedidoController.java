@@ -8,12 +8,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.renanmateus.vendafridas.model.*;
+import com.renanmateus.vendafridas.repository.PedidoItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,15 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.renanmateus.vendafridas.model.Estado;
-import com.renanmateus.vendafridas.model.Faturamento;
-import com.renanmateus.vendafridas.model.FaturamentoSemanal;
-import com.renanmateus.vendafridas.model.Item;
-import com.renanmateus.vendafridas.model.Pedido;
-import com.renanmateus.vendafridas.model.PedidoFinal;
-import com.renanmateus.vendafridas.model.Tipo;
 import com.renanmateus.vendafridas.repository.ItemRepository;
-import com.renanmateus.vendafridas.repository.PedidoFinalRepository;
 import com.renanmateus.vendafridas.repository.PedidoRepository;
 import com.renanmateus.vendafridas.service.DataTablesPedidoService;
 import com.renanmateus.vendafridas.service.FaturamentoService;
@@ -55,12 +50,11 @@ public class PedidoController {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
-	
-	@Autowired
-	private PedidoFinalRepository pedidoFinalRepository;
 
-	
-	
+	@Autowired
+	private PedidoItemRepository pedidoItensRepository;
+
+
 	private boolean pago;
 	
 	public void setPago(boolean pago) {
@@ -72,30 +66,31 @@ public class PedidoController {
 
 	/////////////////////////////// DATATABLES ////////////////////////////////
 	
-	@GetMapping("/lista/{id}")
-	public ResponseEntity<?> dataTables(HttpServletRequest request, @PathVariable Long id) {
-		Map<String, Object> data = new DataTablesPedidoService().execute(this.pedidoRepository, id,  request);
+	@GetMapping("/lista/{pedidoId}")
+	public ResponseEntity<?> dataTables(HttpServletRequest request, @PathVariable Long pedidoId) {
+		Map<String, Object> data = new DataTablesPedidoService().execute(this.itemRepository, pedidoId,  request);
 		return ResponseEntity.ok(data);
 	}
 	
 	@GetMapping("/pagament/{id}")
 	public ResponseEntity<?> dataTablesPagamento(HttpServletRequest request, @PathVariable Long id) {
-		Map<String, Object> data = new DataTablesPedidoService().execute(this.pedidoRepository, id,  request);
-		return ResponseEntity.ok(data);
+		//Map<String, Object> data = new DataTablesPedidoService().execute(this.pedidoRepository, id,  request);
+		//return ResponseEntity.ok(data);
+		return ResponseEntity.ok("Ok");
 	}
 	
 	@GetMapping
 	public String pedidos(ModelMap modelMap) {
-		
 	  LocalDate inicioSemana = LocalDate.now(ZoneId.of("America/Sao_Paulo")).with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)); 
 	  LocalDate fimSemana = inicioSemana.plusDays(6);
+
 	  FaturamentoSemanal faturamentoSemanaAtual = this.faturamentoService.buscarFaturamentoSemanal(inicioSemana, fimSemana);
 	  Faturamento faturamentoOntem = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now().minusDays(1));
 	  Faturamento faturamentoHoje = this.faturamentoService.buscarFaturamentoDiario(LocalDate.now());
+
 	  if (faturamentoHoje.getValorFaturamento() == null) {
 		  faturamentoHoje.setValorFaturamento(new BigDecimal("0.00"));
 	  }
-
 	  if (faturamentoOntem.getValorFaturamento() == null) {
 			faturamentoOntem.setValorFaturamento(new BigDecimal("0.00"));
 	  }
@@ -127,12 +122,9 @@ public class PedidoController {
 	///////////////////////// PEDIDO FECHADO ID \\\\\\\\\\\\\\\\\\\\\\\\\\
 
 	@GetMapping("/encerrado/{pedidoId}")
-	
 	public String buscaPedidoFechado(@PathVariable Long pedidoId, ModelMap modelMap) {
-		Optional<PedidoFinal> pedidoFinal = this.pedidoFinalRepository.findById(pedidoId);
-		Optional<Pedido> pedido = this.pedidoRepository.findById(pedidoId);
-		modelMap.addAttribute("pedido",pedido.get());
-		modelMap.addAttribute("pedidoFinal",pedidoFinal.get());
+		modelMap.addAttribute("itens", this.itemRepository.findByPedidoItensPedidoPedidoId(pedidoId));
+		modelMap.addAttribute("pedido",	this.pedidoRepository.findById(pedidoId).get());
 		return "encerrado";
 	}
 		
@@ -140,10 +132,15 @@ public class PedidoController {
 	@GetMapping("/{pedidoId}")
 	public String buscarPedido(@PathVariable Long pedidoId, ModelMap modelMap, ModelAndView model) {
 		Pedido pedido = this.pedidoService.buscarPedido(pedidoId);
+		List<Item> itens = this.itemRepository.findByPedidoItensPedidoPedidoIdAndPedidoItensIsPago(pedidoId, false);
+
 		if(pedido.getEstado().equals(Estado.Fechado)) {
 			return "redirect:/pedidos/encerrado/"+pedidoId;
 		}
 		model.addObject("pedido",pedido);
+		modelMap.addAttribute("valor",this.pedidoService.getValorPedido(pedidoId));
+		model.addObject("itens",itens);
+
 		//recupera
 		modelMap.addAttribute("editName", pedido.isEditName());
 		modelMap.addAttribute("pedido",pedido);
@@ -179,20 +176,14 @@ public class PedidoController {
 	///////////////////////// ADICIONAR ITEM PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
 		@PostMapping("/add/{pedidoId}/{itemId}")
 		public String addItem(@PathVariable Long pedidoId, @PathVariable Long itemId) {
-			Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
-			List<Item> itens = pedido.getItens();
-			itens.add(this.itemRepository.findById(itemId).get());
-			this.pedidoService.addItemPedido(pedido);
+			this.pedidoService.addItemPedido(pedidoId, itemId);
 			return "redirect:/pedidos/"+pedidoId;
 		}
 		
 	///////////////////////// REMOVER ITEM PEDIDO \\\\\\\\\\\\\\\\\\\\\\\\\\
 		@PostMapping("/remove/{pedidoId}/{itemId}")
 		public String removeItem(@PathVariable Long pedidoId, @PathVariable Long itemId) {
-			Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
-			List<Item> itens = pedido.getItens();
-			itens.remove(this.itemRepository.findById(itemId).get());
-			this.pedidoService.removeItemPedido(pedido);
+			this.pedidoService.removeItemPedido(pedidoId, itemId);
 			return "redirect:/pedidos/"+pedidoId;
 		}
 
@@ -217,6 +208,8 @@ public class PedidoController {
 	@GetMapping("/pagamento/{pedidoId}")
 	public String dividirPagamento(@PathVariable Long pedidoId, ModelMap modelMap) {
 		modelMap.addAttribute("pedido",this.pedidoService.buscarPedido(pedidoId));
+		modelMap.addAttribute("valor",this.pedidoService.getValorPedido(pedidoId));
+
 		return "pagamento";
 		}
 	

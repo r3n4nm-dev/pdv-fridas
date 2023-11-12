@@ -47,7 +47,7 @@
 												</tr>
 												</thead>
 												<tbody>
-												<tr th:each="d : ${pedidoFinal.itens}">
+												<tr th:each="d : ${itens}">
 												<td th:text="${d.itemId}" ></td>
 												<td th:text="${d.tipo + ' (' + d.nome + ')'}" ></td>
 												<td th:text="${d.preco}" ></td>
@@ -61,7 +61,7 @@
 
 								 <div class="col">
 								
-										<h2> Total: <span  class="float-right" th:text="${'R$ '+pedido.valorFinal}">  </span> </h2>
+										<h2> Total: <span  class="float-right" th:text="${'R$ '+pedido.valor }">  </span> </h2>
 								
 							
 								

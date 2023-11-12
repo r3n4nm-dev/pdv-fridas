@@ -5,18 +5,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.tomcat.jni.Local;
+import com.renanmateus.vendafridas.model.PedidoItem;
+import com.renanmateus.vendafridas.repository.PedidoItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.renanmateus.vendafridas.model.Estado;
 import com.renanmateus.vendafridas.model.Item;
 import com.renanmateus.vendafridas.model.Pedido;
-import com.renanmateus.vendafridas.model.PedidoFinal;
 import com.renanmateus.vendafridas.repository.ItemRepository;
-import com.renanmateus.vendafridas.repository.PedidoFinalRepository;
 import com.renanmateus.vendafridas.repository.PedidoRepository;
 import com.renanmateus.vendafridas.utils.SplitItemIdFromString;
 
@@ -24,26 +22,18 @@ import com.renanmateus.vendafridas.utils.SplitItemIdFromString;
 public class PedidoServiceImpl implements PedidoService {
 
 	private BigDecimal valor;
-	private BigDecimal valorFinal;
+	private BigDecimal valorPedido;
 	//private final static double TAXA_CARTAO = 1-0.019; // Taxa de 1.9%
 	private final static BigDecimal TAXA_CARTAO= new BigDecimal("0.981"); 
-	private BigDecimal valorCartao;
-	private BigDecimal valorDinheiro;
-	
 	private List<Item> it = new ArrayList<Item>();
-
 	@Autowired
 	private PedidoRepository pedidoRepository;
-	
-
-	@Autowired
-	private PedidoFinalRepository pedidoFinalRepository;
-	
 	@Autowired
 	private ItemRepository itemRepository;
-	
 	@Autowired
 	private FaturamentoService faturamentoService;
+	@Autowired
+	private PedidoItemRepository pedidoItemRepository;
 
 	@Override
 	public Pedido novoPedido() {
@@ -57,40 +47,53 @@ public class PedidoServiceImpl implements PedidoService {
 		pedido.setNumeroPedidoDia(countPedido+1);
 		return this.pedidoRepository.save(pedido);
 	}
-
 	@Override
-	public Pedido addItemPedido(Pedido pedido) {
-		List<Item> itens = pedido.getItens();
-		this.valor = new BigDecimal("0.00");
-		itens.forEach(item -> {
-			this.valor = this.valor.add(item.getPreco());
-			pedido.setValor(this.valor);
-			//pedido.setValorFinal(pedido.getValor());
-		});
-		
-		//this.pedidoFinalRepository.save(new PedidoFinal(pedido)); // <== aqui
-		return this.pedidoRepository.save(pedido);
+	public BigDecimal getValorPedido(Long pedidoId) {
+		this.valorPedido = new BigDecimal("0.00");
+		List<Item> itens = this.itemRepository.findByPedidoItensPedidoPedidoIdAndPedidoItensIsPago(pedidoId, false);
+		itens.forEach(its -> valorPedido = its.getPreco().add(valorPedido));  // somando o valor Total dos itens do pedido
+		return valorPedido;
 	}
 
 	@Override
-	public Pedido removeItemPedido(Pedido pedido) {
-		List<Item> itens = pedido.getItens();
-		this.valor = new BigDecimal("0.00");
-		if (itens.isEmpty()) {
-			pedido.setValor(new BigDecimal("0.00"));
-			pedido.setValorFinal(pedido.getValor());
-			//this.pedidoFinalRepository.save(new PedidoFinal(pedido));
-			return this.pedidoRepository.save(pedido);
-		}
-		itens.forEach(item -> {
-			this.valor = this.valor.subtract(item.getPreco());
-			//this.valor = item.getPreco().subtract(this.valor);
-			pedido.setValor(this.valor.multiply(new BigDecimal("-1.00"))); // só mexa se realmente precisar. :D
-			//pedido.setValor(this.valor);
+	public void addItemPedido(Long pedidoId, Long itemId) {
+		Pedido p = new Pedido();
+		p.setPedidoId(pedidoId);
+		Item i = new Item();
+		i.setItemId(itemId);
+		List<Item> itens = this.itemRepository.findByPedidoItensPedidoPedidoId(pedidoId); 	// pegar todos os itens, pagos ou não para salvar o valor final do pedido
+		itens.add(this.itemRepository.findById(itemId).get());
 
+		this.valor = new BigDecimal("0.00");
+		itens.forEach(item -> {
+			this.valor = this.valor.add(item.getPreco());
 		});
-		this.pedidoFinalRepository.save(new PedidoFinal(pedido));
-		return this.pedidoRepository.save(pedido);
+
+		PedidoItem piAtual = new PedidoItem();
+		piAtual.setItem(i);
+		piAtual.setPedido(p);
+		piAtual.setDataCriacao(LocalDateTime.now());
+
+		this.pedidoItemRepository.save(piAtual);
+		this.pedidoRepository.atualizaValorPedido(pedidoId, this.valor);
+	}
+
+	@Override
+	public void removeItemPedido(Long pedidoId, Long itemId) {
+		this.valor = new BigDecimal("0.00");
+		List<Item> itens = this.itemRepository.findByPedidoItensPedidoPedidoIdAndPedidoItensIsPago(pedidoId, false);
+		// somando o valor Total dos itens do pedido
+		itens.forEach(its -> this.valor = its.getPreco().add(this.valor));
+		for(int element = 0; element < itens.size(); element++) {
+			if(itens.get(element).getItemId() == itemId) {
+				this.valor = this.valor.subtract(itens.get(element).getPreco());
+				itens.remove(element);
+				break;
+			}
+		}
+		PedidoItem pedidoItem = this.pedidoItemRepository.findFirstByPedidoPedidoIdAndItemItemIdAndIsPago(pedidoId, itemId, false);
+		this.pedidoItemRepository.deleteById(pedidoItem.getId());
+		this.pedidoRepository.atualizaValorPedido(pedidoId, this.valor);
 	}
 	
 	@Override
@@ -104,14 +107,23 @@ public class PedidoServiceImpl implements PedidoService {
 
 	@Override
 	public void renomearPedido(Long pedidoId, Pedido p) {
-	Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
-	pedido.setCliente(p.getCliente());
-	this.pedidoRepository.save(pedido);
+		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
+		pedido.setCliente(p.getCliente());
+		this.pedidoRepository.save(pedido);
 	}
 	
 	@Override
 	public List<Pedido> listarPedidos() {
-		return this.pedidoRepository.findByEstadoOrderByPedidoIdDesc(Estado.Aberto);
+		List<PedidoItem> pedidoItems = this.pedidoItemRepository.findByIsPagoAndPedidoEstado(true, Estado.Aberto);
+		List<Pedido> pedidos =  this.pedidoRepository.findByEstadoOrderByPedidoIdDesc(Estado.Aberto);
+		pedidoItems.forEach(pedidoItem -> {
+			pedidos.forEach(pedido -> {
+				if (pedidoItem.getPedido().getPedidoId() == pedido.getPedidoId()) {
+					pedido.setValor(pedido.getValor().subtract(pedidoItem.getItem().getPreco()));
+				}
+			});
+		});
+		return pedidos;
 	}
 	
 	@Override
@@ -122,17 +134,8 @@ public class PedidoServiceImpl implements PedidoService {
 	@Override
 	public void confimarPedido(Long pedidoId, Pedido p) {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
-
-		Optional<PedidoFinal> pedidoFinal = this.pedidoFinalRepository.findById(pedidoId);
-		if(pedidoFinal.isEmpty()) {
-			PedidoFinal pf = new PedidoFinal();
-			pf.setItens(new ArrayList<Item>());
-			pf.setValorFinal(pedido.getValorFinal());
-			pf.setPedidoFinalId(pedidoId);
-			this.pedidoFinalRepository.save(pf);
-		}
 		if (pedido.getCliente() == null) {
-		pedido.setCliente(p.getCliente());
+			pedido.setCliente(p.getCliente());
 		}
 		pedido.setEstado(Estado.Aberto);
 		this.pedidoRepository.save(pedido);
@@ -152,42 +155,19 @@ public class PedidoServiceImpl implements PedidoService {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		pedido.setEstado(Estado.Fechado);
 		pedido.setHoraPedido(LocalDateTime.now());
-		pedido.setValorFinal(pedido.getValor().add(pedido.getValorFinal()));
-		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
-		List<Item> itens = new ArrayList<Item>(pedido.getItens());		
-		itens.forEach(item -> pedidoFinal.getItens().add(item));
-		this.pedidoFinalRepository.save(pedidoFinal);
+		this.pedidoItemRepository.updatePedidoItemIsPagoByPedidoItemPedido(true, false, pedido);
 		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
 	}
 
 	public void pagarItemPedidoEmDinheiro(Long pedidoId, String arrayItemId) {	
-	this.valorDinheiro= new BigDecimal("0.00");
-		List<Long> listItens = SplitItemIdFromString.splitString(arrayItemId);
-	Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
+		List<Long> itensAPagar = SplitItemIdFromString.splitString(arrayItemId); // lista de itens selecionados no frontend
+		itensAPagar.forEach(item -> {
+			PedidoItem pedidoItem = this.pedidoItemRepository.findFirstByPedidoPedidoIdAndItemItemIdAndIsPago(pedidoId, item, false);
+			this.pedidoItemRepository.updatePedidoItemIsPagoAndIsCardPaymentById(true, false, pedidoItem.getId());
+			pedidoItem.setCardPayment(true);
 
-	List<Item> itensDoPedido = pedido.getItens();
-		listItens.forEach(item -> {	
-			Item i = this.itemRepository.findById(item).get();
-			this.valorDinheiro = i.getPreco().add(this.valorDinheiro) ;
-			this.it.add(i);
-			itensDoPedido.remove(i);
-		});	
-		
-		this.valor = new BigDecimal("0.00");
-		itensDoPedido.forEach(item -> {
-			this.valor =  item.getPreco().add(this.valor);
-			pedido.setValor(this.valor);
 		});
-	
-		pedido.setValorFinal(this.valorDinheiro.add(pedido.getValorFinal()));
-		
-		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
-		this.it.forEach(ia -> pedidoFinal.getItens().add(ia));
-		this.it.clear();
-		pedidoFinal.setPedidoFinalId(pedido.getPedidoId());
-		this.pedidoFinalRepository.save(pedidoFinal);
-		this.pedidoRepository.save(pedido);
 		this.faturamentoService.salvar();
 	}
 
@@ -196,45 +176,26 @@ public class PedidoServiceImpl implements PedidoService {
 		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
 		pedido.setEstado(Estado.Fechado);
 		pedido.setHoraPedido(LocalDateTime.now());
-		this.valorFinal = pedido.getValor().multiply(TAXA_CARTAO);
-		pedido.setValorFinal(this.valorFinal.add(pedido.getValorFinal()));
-		PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
-		List<Item> itens = new ArrayList<Item>(pedido.getItens());		
-		itens.forEach(item -> pedidoFinal.getItens().add(item));
-		this.pedidoFinalRepository.save(pedidoFinal);
-
+		pedido.setValor(pedido.getValor().multiply(TAXA_CARTAO));
 		this.pedidoRepository.save(pedido);
+		this.pedidoItemRepository.updatePedidoItemIsPagoByPedidoItemPedido(true, true,pedido);
 		this.faturamentoService.salvar();
 	}
 
-	public void pagarItemPedidoEmCartao(Long pedidoId, String arrayItemId) {	
-		this.valorCartao= new BigDecimal("0.00");
-		List<Long> listItens = SplitItemIdFromString.splitString(arrayItemId);
-		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
-		List<Item> itensDoPedido = pedido.getItens();
-		listItens.forEach(item -> {	
-			Item i = this.itemRepository.findById(item).get();
-			this.valorCartao = (i.getPreco().multiply(TAXA_CARTAO)).add(this.valorCartao);
-			this.it.add(i);
-			itensDoPedido.remove(i);		
-	});	
-		this.valor = new BigDecimal("0.00");
-		itensDoPedido.forEach(it -> {
-			this.valor =  it.getPreco().add(this.valor);
-			pedido.setValor(this.valor);
-	});	
-	
-	pedido.setValorFinal(this.valorCartao.add(pedido.getValorFinal()));
-	PedidoFinal pedidoFinal = this.pedidoFinalRepository.findById(pedidoId).get();
-	this.it.forEach(ia -> pedidoFinal.getItens().add(ia));
-	this.it.clear();
-	pedidoFinal.setPedidoFinalId(pedido.getPedidoId());
-	this.pedidoRepository.save(pedido);
-	this.faturamentoService.salvar();
+	public void pagarItemPedidoEmCartao(Long pedidoId, String arrayItemId) {
+		List<Long> itensAPagar = SplitItemIdFromString.splitString(arrayItemId); // lista de itens selecionados no frontend
+		itensAPagar.forEach(item -> {
+			PedidoItem pedidoItem = this.pedidoItemRepository.findFirstByPedidoPedidoIdAndItemItemIdAndIsPago(pedidoId, item, false);
+			this.pedidoItemRepository.updatePedidoItemIsPagoAndIsCardPaymentById(true,true,  pedidoItem.getId());
+		});
+		this.faturamentoService.salvar();
 	}
 
 	@Override
 	public void removerPedido(Long pedidoId) {
-		this.faturamentoService.atualizarTodosFaturamentos(pedidoId);
+		Pedido pedido = this.pedidoRepository.findById(pedidoId).get();
+		this.pedidoItemRepository.deleteByPedidoPedidoId(pedidoId);
+		this.pedidoRepository.deleteById(pedidoId);
+		this.faturamentoService.atualizarTodosFaturamentos(pedido);
 	}
 }

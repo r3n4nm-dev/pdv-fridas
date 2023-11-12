@@ -53,7 +53,7 @@
 								<tr th:each="d : ${pedidosEncerradosHoje}">
 									<td th:text="${d.numeroPedidoDia}"></td>
 									<td th:text="${d.cliente}"></td>
-									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
+									<td th:text="${ 'R$ ' + d.valor}"></td>
                                     <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
                                   <td colspan="3">
                                   <a  class="btn btn-warning btn-sm " th:href="@{/pedidos/encerrado/{pedidoId} (pedidoId=${d.pedidoId}) }">Detalhes</a>
@@ -94,7 +94,7 @@
 								<tr th:each="d : ${pedidosEncerradosOntem}">
 									<td th:text="${d.numeroPedidoDia}"></td>
 									<td th:text="${d.cliente}"></td>
-									<td th:text="${ 'R$ ' + d.valorFinal}"></td>
+									<td th:text="${ 'R$ ' + d.valor}"></td>
                                     <td  th:text="${#temporals.format( d.horaPedido , 'HH:mm:ss dd/MM/yyyy ')}"> </td >
                                   <td colspan="3">
                                   <a  class="btn btn-warning btn-sm " th:href="@{/pedidos/encerrado/{pedidoId} (pedidoId=${d.pedidoId}) }">Detalhes</a>

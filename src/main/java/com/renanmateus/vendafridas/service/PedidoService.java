@@ -1,8 +1,10 @@
 package com.renanmateus.vendafridas.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.renanmateus.vendafridas.model.Item;
 import com.renanmateus.vendafridas.model.Pedido;
 
 public interface PedidoService {
@@ -13,10 +15,8 @@ public interface PedidoService {
 		
 	 List<Pedido> listarPedidos();
 
-	Pedido addItemPedido(Pedido pedido);
-
-	Pedido removeItemPedido(Pedido pedido);
-
+	void addItemPedido(Long pedidoId, Long itemId);
+	void removeItemPedido(Long pedidoId, Long itemId);
 	void pagarValorTotalEmDinheiro(Long pedidoId);
 
 	void pagarValorTotalEmCartaoDebito(Long pedidoId);
@@ -30,6 +30,6 @@ public interface PedidoService {
 	void removerPedido(Long pedidoId);
 
 	void renomearPedido(Long pedidoId, Pedido pedido);
-	
-	
-}
+	BigDecimal getValorPedido(Long pedidoId);
+
+	}
