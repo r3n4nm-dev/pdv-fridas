@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  fridas-mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'fridass'
+      MYSQL_ROOT_PASSWORD: 'renan'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
