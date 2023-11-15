@@ -209,9 +209,8 @@ public class PedidoController {
 	public String dividirPagamento(@PathVariable Long pedidoId, ModelMap modelMap) {
 		modelMap.addAttribute("pedido",this.pedidoService.buscarPedido(pedidoId));
 		modelMap.addAttribute("valor",this.pedidoService.getValorPedido(pedidoId));
-
 		return "pagamento";
-		}
+	}
 	
 	@GetMapping("/pagar-valor-total-em-dinheiro/{pedidoId}")
 	public String pagarValorTotalEmDinheiro(@PathVariable Long pedidoId) {

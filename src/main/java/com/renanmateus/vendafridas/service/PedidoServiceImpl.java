@@ -165,7 +165,6 @@ public class PedidoServiceImpl implements PedidoService {
 		itensAPagar.forEach(item -> {
 			PedidoItem pedidoItem = this.pedidoItemRepository.findFirstByPedidoPedidoIdAndItemItemIdAndIsPago(pedidoId, item, false);
 			this.pedidoItemRepository.updatePedidoItemIsPagoAndIsCardPaymentById(true, false, pedidoItem.getId());
-			pedidoItem.setCardPayment(true);
 
 		});
 		this.faturamentoService.salvar();
